@@ -274,6 +274,10 @@ def bitname(obj):
             char = 'U'
             base = 'unicode'
 
+    if name == 'posit32':
+        char = 'K'
+        base = 'float'
+
     bytes = bits // 8
 
     if char != '' and bytes != 0:
@@ -439,7 +443,7 @@ def _add_array_type(typename, bits):
 
 def _set_array_types():
     ibytes = [1, 2, 4, 8, 16, 32, 64]
-    fbytes = [2, 4, 8, 10, 12, 16, 32, 64]
+    fbytes = [2, 4, 4, 8, 10, 12, 16, 32, 64]
     for bytes in ibytes:
         bits = 8*bytes
         _add_array_type('int', bits)
@@ -461,12 +465,9 @@ _set_array_types()
 
 
 genericTypeRank = ['bool', 'int8', 'uint8', 'int16', 'uint16',
-                   'int32', 'uint32', 'int64', 'uint64', 'int128',
-                   'uint128', 'float16',
-                   'float32', 'float64', 'float80', 'float96', 'float128',
-                   'float256',
-                   'complex32', 'complex64', 'complex128', 'complex160',
-                   'complex192', 'complex256', 'complex512', 'object']
+                   'int32', 'uint32', 'int64', 'uint64', 'int128', 'uint128',
+                   'float16', 'posit32', 'float32', 'float64', 'float80', 'float96', 'float128', 'float256',
+                   'complex32', 'complex64p', 'complex64', 'complex128', 'complex160', 'complex192', 'complex256', 'complex512', 'object']
 
 def maximum_sctype(t):
     """
