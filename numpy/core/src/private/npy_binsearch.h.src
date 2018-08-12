@@ -36,7 +36,7 @@ typedef struct {
 /**begin repeat1
  *
  * #suff = bool, byte, ubyte, short, ushort, int, uint, long, ulong,
- *         longlong, ulonglong, half, float, double, longdouble,
+ *         longlong, ulonglong, half, posit32, float, double, longdouble,
  *         cfloat, cdouble, clongdouble, datetime, timedelta#
  */
 
@@ -80,10 +80,10 @@ static @arg@binsearch_map _@arg@binsearch_map[] = {
      *
      * #TYPE = BOOL, BYTE, UBYTE, SHORT, USHORT, INT, UINT, LONG, ULONG,
      *         LONGLONG, ULONGLONG, FLOAT, DOUBLE, LONGDOUBLE,
-     *         CFLOAT, CDOUBLE, CLONGDOUBLE, DATETIME, TIMEDELTA, HALF#
+     *         CFLOAT, CDOUBLE, CLONGDOUBLE, DATETIME, TIMEDELTA, HALF, POSIT32#
      * #suff = bool, byte, ubyte, short, ushort, int, uint, long, ulong,
      *         longlong, ulonglong, float, double, longdouble,
-     *         cfloat, cdouble, clongdouble, datetime, timedelta, half#
+     *         cfloat, cdouble, clongdouble, datetime, timedelta, half, posit32#
      */
     {NPY_@TYPE@,
         {

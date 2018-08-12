@@ -114,6 +114,14 @@ int aheapsort_half(void *vec, npy_intp *ind, npy_intp cnt, void *null);
 int amergesort_half(void *vec, npy_intp *ind, npy_intp cnt, void *null);
 
 
+int quicksort_posit32(void *vec, npy_intp cnt, void *null);
+int heapsort_posit32(void *vec, npy_intp cnt, void *null);
+int mergesort_posit32(void *vec, npy_intp cnt, void *null);
+int aquicksort_posit32(void *vec, npy_intp *ind, npy_intp cnt, void *null);
+int aheapsort_posit32(void *vec, npy_intp *ind, npy_intp cnt, void *null);
+int amergesort_posit32(void *vec, npy_intp *ind, npy_intp cnt, void *null);
+
+
 int quicksort_float(void *vec, npy_intp cnt, void *null);
 int heapsort_float(void *vec, npy_intp cnt, void *null);
 int mergesort_float(void *vec, npy_intp cnt, void *null);
