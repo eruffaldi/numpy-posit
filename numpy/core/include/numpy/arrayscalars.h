@@ -83,6 +83,12 @@ typedef struct {
 
 typedef struct {
         PyObject_HEAD
+        npy_posit32 obval;
+} PyPosit32ScalarObject;
+
+
+typedef struct {
+        PyObject_HEAD
         double obval;
 } PyDoubleScalarObject;
 
