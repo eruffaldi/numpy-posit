@@ -71,7 +71,7 @@ class TypeDescription(object):
         assert len(self.out) == nout
         self.astype = self.astype_dict.get(self.type, None)
 
-_fdata_map = dict(e='npy_%sf', f='npy_%sf', d='npy_%s', g='npy_%sl',
+_fdata_map = dict(e='npy_%sf', K='npy_%sf', f='npy_%sf', d='npy_%s', g='npy_%sl',
                   F='nc_%sf', D='nc_%s', G='nc_%sl')
 def build_func_data(types, f):
     func_data = []
@@ -200,6 +200,7 @@ chartoname = {'?': 'bool',
               'q': 'longlong',
               'Q': 'ulonglong',
               'e': 'half',
+              'K': 'posit32',
               'f': 'float',
               'd': 'double',
               'g': 'longdouble',
@@ -214,7 +215,7 @@ chartoname = {'?': 'bool',
               'P': 'OBJECT',
               }
 
-all = '?bBhHiIlLqQefdgFDGOMm'
+all = '?bBhHiIlLqQeKfdgFDGOMm'
 O = 'O'
 P = 'P'
 ints = 'bBhHiIlLqQ'
@@ -223,7 +224,7 @@ timedeltaonly = 'm'
 intsO = ints + O
 bints = '?' + ints
 bintsO = bints + O
-flts = 'efdg'
+flts = 'eKfdg'
 fltsO = flts + O
 fltsP = flts + P
 cmplx = 'FDG'
@@ -915,6 +916,7 @@ def indent(st, spaces):
     return indented
 
 chartotype1 = {'e': 'e_e',
+               'K': 'K_K',
                'f': 'f_f',
                'd': 'd_d',
                'g': 'g_g',
@@ -925,6 +927,7 @@ chartotype1 = {'e': 'e_e',
                'P': 'O_O_method'}
 
 chartotype2 = {'e': 'ee_e',
+               'K': 'KK_K',
                'f': 'ff_f',
                'd': 'dd_d',
                'g': 'gg_g',
