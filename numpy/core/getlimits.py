@@ -56,7 +56,11 @@ _MACHAR_PARAMS = {
     ntypes.half: dict(
         itype = ntypes.int16,
         fmt = '%12.5e',
-        title = _title_fmt.format('half'))}
+        title = _title_fmt.format('half')),
+    ntypes.posit32: dict(
+        itype = ntypes.int32,
+        fmt = '%12.5e',
+        title = _title_fmt.format('posit32'))}
 
 
 class MachArLike(object):
@@ -123,6 +127,22 @@ _float16_ma = MachArLike(_f16,
                          epsneg=exp2(_f16(-11)),
                          huge=_f16(65504),
                          tiny=_f16(2 ** -14))
+
+_p32 = ntypes.posit32
+_posit32_ma = MachArLike(_p32,
+                         machep=-10,
+                         negep=-11,
+                         minexp=-14,
+                         maxexp=16,
+                         it=10,
+                         iexp=5,
+                         ibeta=2,
+                         irnd=5,
+                         ngrd=0,
+                         eps=exp2(_p32(-10)),
+                         epsneg=exp2(_p32(-11)),
+                         huge=_p32(65504),
+                         tiny=_p32(2 ** -14))
 
 # Known parameters for float32
 _f32 = ntypes.float32
