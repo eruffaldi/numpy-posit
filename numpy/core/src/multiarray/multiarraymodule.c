@@ -4613,6 +4613,7 @@ setup_scalartypes(PyObject *NPY_UNUSED(dict))
     SINGLE_INHERIT(ULongLong, UnsignedInteger);
 
     SINGLE_INHERIT(Half, Floating);
+    SINGLE_INHERIT(Posit32, Floating);
     SINGLE_INHERIT(Float, Floating);
     DUAL_INHERIT(Double, Float, Floating);
     SINGLE_INHERIT(LongDouble, Floating);
