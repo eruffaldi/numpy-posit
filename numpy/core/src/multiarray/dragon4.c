@@ -2259,6 +2259,42 @@ Dragon4_PrintFloat_IEEE_binary16(
 }
 
 /*
+ * posit32 format
+ *
+ * nbits:   32 bit
+ * es:      2 bits
+ */
+static npy_uint32
+Dragon4_PrintFloat_POSIT_binary32(
+        Dragon4_Scratch *scratch, npy_posit32 *value, Dragon4_Options *opt)
+{
+    char *buffer = scratch->repr;
+    npy_uint32 bufferSize = sizeof(scratch->repr);
+    BigInt *bigints = scratch->bigints;
+
+    npy_uint32 val = *value;
+
+    /* if this is a special value */
+    if (val == 0x80000000U) {
+        //return PrintInfNan(buffer, bufferSize, floatMantissa, 3, signbit);
+        buffer[0] = 'N';
+        buffer[1] = 'a';
+        buffer[2] = 'R';
+        buffer[3] = '\0';
+        return 4;
+    }
+    /* else this is a number */
+
+    /* factor the value into its parts */
+    buffer[0] = 'P';
+    buffer[1] = 'S';
+    buffer[2] = '\0';
+    return 3;
+    //return Format_floatbits(buffer, bufferSize, bigints, exponent,
+    //                        signbit, mantissaBit, hasUnequalMargins, opt);
+}
+
+/*
  * IEEE binary32 floating-point format
  *
  * sign:      1 bit
@@ -3178,6 +3214,7 @@ Dragon4_Scientific_##Type(npy_type *val, DigitMode digit_mode, int precision,\
         make_dragon4_typefuncs_inner(Type, npy_type, format)
 
 make_dragon4_typefuncs(Half, npy_half, NPY_HALF_BINFMT_NAME)
+make_dragon4_typefuncs(Posit32, npy_posit32, NPY_POSIT32_BINFMT_NAME)
 make_dragon4_typefuncs(Float, npy_float, NPY_FLOAT_BINFMT_NAME)
 make_dragon4_typefuncs(Double, npy_double, NPY_DOUBLE_BINFMT_NAME)
 make_dragon4_typefuncs(LongDouble, npy_longdouble, NPY_LONGDOUBLE_BINFMT_NAME)
@@ -3206,6 +3243,11 @@ Dragon4_Positional(PyObject *obj, DigitMode digit_mode, CutoffMode cutoff_mode,
     if (PyArray_IsScalar(obj, Half)) {
         npy_half x = ((PyHalfScalarObject *)obj)->obval;
         return Dragon4_Positional_Half_opt(&x, &opt);
+    }
+    else if (PyArray_IsScalar(obj, Posit32)) {
+        npy_posit32 x = ((PyFloatScalarObject *)obj)->obval;
+        // FIXME
+        return Dragon4_Positional_Float_opt(&x, &opt);
     }
     else if (PyArray_IsScalar(obj, Float)) {
         npy_float x = ((PyFloatScalarObject *)obj)->obval;
@@ -3247,6 +3289,11 @@ Dragon4_Scientific(PyObject *obj, DigitMode digit_mode, int precision,
     if (PyArray_IsScalar(obj, Half)) {
         npy_half x = ((PyHalfScalarObject *)obj)->obval;
         return Dragon4_Scientific_Half_opt(&x, &opt);
+    }
+    else if (PyArray_IsScalar(obj, Posit32)) {
+        npy_posit32 x = ((PyPosit32ScalarObject *)obj)->obval;
+        // FIXME
+        return Dragon4_Scientific_Float_opt(&x, &opt);
     }
     else if (PyArray_IsScalar(obj, Float)) {
         npy_float x = ((PyFloatScalarObject *)obj)->obval;

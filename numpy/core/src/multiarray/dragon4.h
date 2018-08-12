@@ -43,6 +43,8 @@
 /* Half binary format */
 #define NPY_HALF_BINFMT_NAME IEEE_binary16
 
+#define NPY_POSIT32_BINFMT_NAME POSIT_binary32
+
 /* Float binary format */
 #if NPY_BITSOF_FLOAT == 32
     #define NPY_FLOAT_BINFMT_NAME IEEE_binary32
