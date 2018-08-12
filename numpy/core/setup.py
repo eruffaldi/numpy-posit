@@ -675,7 +675,8 @@ def configuration(parent_package='',top_path=None):
                        join('src', 'npymath', 'npy_math.c'),
                        join('src', 'npymath', 'ieee754.c.src'),
                        join('src', 'npymath', 'npy_math_complex.c.src'),
-                       join('src', 'npymath', 'halffloat.c')
+                       join('src', 'npymath', 'halffloat.c'),
+                       join('src', 'npymath', 'p32posit.c')
                        ]
     
     # Must be true for CRT compilers but not MinGW/cygwin. See gh-9977.
@@ -762,6 +763,7 @@ def configuration(parent_package='',top_path=None):
             join('include', 'numpy', 'npy_3kcompat.h'),
             join('include', 'numpy', 'npy_math.h'),
             join('include', 'numpy', 'halffloat.h'),
+            join('include', 'numpy', 'p32posit.h'),
             join('include', 'numpy', 'npy_common.h'),
             join('include', 'numpy', 'npy_os.h'),
             join('include', 'numpy', 'utils.h'),
@@ -891,6 +893,7 @@ def configuration(parent_package='',top_path=None):
             generate_umath_py,
             join('include', 'numpy', 'npy_math.h'),
             join('include', 'numpy', 'halffloat.h'),
+            join('include', 'numpy', 'p32posit.h'),
             join('src', 'multiarray', 'common.h'),
             join('src', 'private', 'templ_common.h.src'),
             join('src', 'umath', 'simd.inc.src'),
