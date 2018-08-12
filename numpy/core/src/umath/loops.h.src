@@ -165,9 +165,9 @@ NPY_NO_EXPORT void
 
 /**begin repeat
  * Float types
- *  #TYPE = HALF, FLOAT, DOUBLE, LONGDOUBLE#
- *  #c = f, f, , l#
- *  #C = F, F, , L#
+ *  #TYPE = HALF, POSIT32, FLOAT, DOUBLE, LONGDOUBLE#
+ *  #c = f, f, f, , l#
+ *  #C = F, F, F, , L#
  */
 
 
