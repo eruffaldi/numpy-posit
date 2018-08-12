@@ -214,6 +214,7 @@ typedef Py_uintptr_t npy_uintp;
 #define NPY_SIZEOF_INTP NPY_SIZEOF_PY_INTPTR_T
 #define NPY_SIZEOF_UINTP NPY_SIZEOF_PY_INTPTR_T
 #define NPY_SIZEOF_HALF 2
+#define NPY_SIZEOF_POSIT32 4
 #define NPY_SIZEOF_CFLOAT NPY_SIZEOF_COMPLEX_FLOAT
 #define NPY_SIZEOF_CDOUBLE NPY_SIZEOF_COMPLEX_DOUBLE
 #define NPY_SIZEOF_CLONGDOUBLE NPY_SIZEOF_COMPLEX_LONGDOUBLE
@@ -287,6 +288,7 @@ typedef Py_uintptr_t npy_uintp;
 #define NPY_LONG_FMT "ld"
 #define NPY_ULONG_FMT "lu"
 #define NPY_HALF_FMT "g"
+#define NPY_POSIT32_FMT "g"
 #define NPY_FLOAT_FMT "g"
 #define NPY_DOUBLE_FMT "g"
 
@@ -472,6 +474,7 @@ typedef struct { npy_longdouble real, imag; } npy_clongdouble;
 #define NPY_BITSOF_LONGLONG (NPY_SIZEOF_LONGLONG * CHAR_BIT)
 #define NPY_BITSOF_INTP (NPY_SIZEOF_INTP * CHAR_BIT)
 #define NPY_BITSOF_HALF (NPY_SIZEOF_HALF * CHAR_BIT)
+#define NPY_BITSOF_POSIT32 (NPY_SIZEOF_POSIT32 * CHAR_BIT)
 #define NPY_BITSOF_FLOAT (NPY_SIZEOF_FLOAT * CHAR_BIT)
 #define NPY_BITSOF_DOUBLE (NPY_SIZEOF_DOUBLE * CHAR_BIT)
 #define NPY_BITSOF_LONGDOUBLE (NPY_SIZEOF_LONGDOUBLE * CHAR_BIT)
@@ -993,6 +996,8 @@ typedef struct { npy_longdouble real, imag; } npy_clongdouble;
 #define NPY_FLOAT16 NPY_HALF
 typedef npy_uint16 npy_half;
 typedef npy_half npy_float16;
+
+typedef npy_uint32 npy_posit32;
 
 #if NPY_BITSOF_LONGDOUBLE == 32
 #ifndef NPY_FLOAT32
