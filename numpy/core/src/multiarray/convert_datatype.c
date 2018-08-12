@@ -219,6 +219,7 @@ PyArray_AdaptFlexibleDType(PyObject *data_obj, PyArray_Descr *data_dtype,
                     }
                     break;
                 case NPY_HALF:
+                case NPY_POSIT32:
                 case NPY_FLOAT:
                 case NPY_DOUBLE:
                 case NPY_LONGDOUBLE:
@@ -1536,6 +1537,9 @@ static int min_scalar_type_num(char *valueptr, int type_num,
          */
         case NPY_HALF: {
             return NPY_HALF;
+        }
+        case NPY_POSIT32: {
+            return NPY_POSIT32;
         }
         case NPY_FLOAT: {
             float value = *(float *)valueptr;
