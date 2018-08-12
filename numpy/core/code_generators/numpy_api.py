@@ -74,6 +74,7 @@ multiarray_types_api = {
     'PyHalfArrType_Type':               (217,),
     'NpyIter_Type':                     (218,),
     # End 1.6 API
+    'PyPosit32ArrType_Type':            (304,),
 }
 
 #define NPY_NUMUSERTYPES (*(int *)PyArray_API[6])
@@ -402,6 +403,14 @@ ufunc_funcs_api = {
     # End 1.7 API
     'PyUFunc_RegisterLoopForDescr':             (41,),
     # End 1.8 API
+
+    # Posit
+    'PyUFunc_K_K':                              (42,),
+    'PyUFunc_K_K_As_f_f':                       (43,),
+    'PyUFunc_K_K_As_d_d':                       (44,),
+    'PyUFunc_KK_K':                             (45,),
+    'PyUFunc_KK_K_As_ff_f':                     (46,),
+    'PyUFunc_KK_K_As_dd_d':                     (47,),
 }
 
 # List of all the dicts which define the C API
