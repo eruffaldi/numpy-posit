@@ -4,3 +4,6 @@
 [submodule "doc/sphinxext"]
 	path = doc/sphinxext
 	url = https://github.com/numpy/numpydoc.git
+[submodule "numpy/core/src/npymath/softposit"]
+	path = numpy/core/src/npymath/softposit
+	url = https://gitlab.com/xman16/SoftPosit.git
