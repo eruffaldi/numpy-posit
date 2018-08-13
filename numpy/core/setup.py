@@ -678,9 +678,23 @@ def configuration(parent_package='',top_path=None):
                        join('src', 'npymath', 'halffloat.c'),
                        join('src', 'npymath', 'p32posit.c')
                        ]
+
+    softposit_sources = [ join('src', 'npymath', 'softposit', 'source', '*.c') ]
+    softposit_headers = [ join('src', 'npymath', 'softposit', 'source', 'include', '*.h'),
+                          join('src', 'npymath', 'softposit', 'build', 'Linux-x86_64-GCC', 'platform.h'),
+                        ]
     
     # Must be true for CRT compilers but not MinGW/cygwin. See gh-9977.
     is_msvc = platform.system() == 'Windows'
+    config.add_installed_library('softposit',
+            sources=softposit_sources,
+            install_dir='lib',
+            build_info={
+                'include_dirs' : [ join('src', 'npymath', 'softposit', 'source', 'include'),
+                                   join('src', 'npymath', 'softposit', 'build', 'Linux-x86_64-GCC'),
+                                 ],
+                'extra_compiler_args' : ([]),
+            })
     config.add_installed_library('npymath',
             sources=npymath_sources + [get_mathlib_info],
             install_dir='lib',
@@ -774,7 +788,7 @@ def configuration(parent_package='',top_path=None):
             join('include', 'numpy', 'npy_1_7_deprecated_api.h'),
             # add library sources as distuils does not consider libraries
             # dependencies
-            ] + npysort_sources + npymath_sources
+            ] + npysort_sources + npymath_sources + softposit_sources
 
     multiarray_src = [
             join('src', 'multiarray', 'alloc.c'),
@@ -852,7 +866,7 @@ def configuration(parent_package='',top_path=None):
                                   join(codegen_dir, 'generate_numpy_api.py'),
                                   join('*.py')],
                          depends=deps + multiarray_deps,
-                         libraries=['npymath', 'npysort'],
+                         libraries=['npymath', 'npysort', 'softposit'],
                          extra_info=extra_info)
 
     #######################################################################
@@ -903,7 +917,7 @@ def configuration(parent_package='',top_path=None):
             join('src', 'private', 'mem_overlap.h'),
             join('src', 'private', 'npy_longdouble.h'),
             join('src', 'private', 'ufunc_override.h'),
-            join('src', 'private', 'binop_override.h')] + npymath_sources
+            join('src', 'private', 'binop_override.h')] + npymath_sources + softposit_sources + softposit_headers
 
     config.add_extension('umath',
                          sources=umath_src +
@@ -912,7 +926,7 @@ def configuration(parent_package='',top_path=None):
                                  generate_umath_c,
                                  generate_ufunc_api],
                          depends=deps + umath_deps,
-                         libraries=['npymath'],
+                         libraries=['npymath', 'softposit'],
                          )
 
     #######################################################################
