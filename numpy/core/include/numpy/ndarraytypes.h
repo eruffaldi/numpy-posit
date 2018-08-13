@@ -1641,6 +1641,9 @@ PyArray_CLEARFLAGS(PyArrayObject *arr, int flags)
                               ((type) == NPY_HALF) || \
                               ((type) == NPY_POSIT32))
 
+#define PyTypeNum_ISPOSIT(type) (((type) >= NPY_POSIT32) && \
+                              ((type) <= NPY_POSIT32))
+
 #define PyTypeNum_ISNUMBER(type) (((type) <= NPY_CLONGDOUBLE) || \
                                   ((type) == NPY_HALF) || \
                                   ((type) == NPY_POSIT32))
@@ -1678,6 +1681,7 @@ PyArray_CLEARFLAGS(PyArrayObject *arr, int flags)
 #define PyDataType_ISSIGNED(obj) PyTypeNum_ISSIGNED(((PyArray_Descr*)(obj))->type_num)
 #define PyDataType_ISINTEGER(obj) PyTypeNum_ISINTEGER(((PyArray_Descr*)(obj))->type_num )
 #define PyDataType_ISFLOAT(obj) PyTypeNum_ISFLOAT(((PyArray_Descr*)(obj))->type_num)
+#define PyDataType_ISPOSIT(obj) PyTypeNum_ISPOSIT(((PyArray_Descr*)(obj))->type_num)
 #define PyDataType_ISNUMBER(obj) PyTypeNum_ISNUMBER(((PyArray_Descr*)(obj))->type_num)
 #define PyDataType_ISSTRING(obj) PyTypeNum_ISSTRING(((PyArray_Descr*)(obj))->type_num)
 #define PyDataType_ISCOMPLEX(obj) PyTypeNum_ISCOMPLEX(((PyArray_Descr*)(obj))->type_num)
@@ -1697,6 +1701,7 @@ PyArray_CLEARFLAGS(PyArrayObject *arr, int flags)
 #define PyArray_ISSIGNED(obj) PyTypeNum_ISSIGNED(PyArray_TYPE(obj))
 #define PyArray_ISINTEGER(obj) PyTypeNum_ISINTEGER(PyArray_TYPE(obj))
 #define PyArray_ISFLOAT(obj) PyTypeNum_ISFLOAT(PyArray_TYPE(obj))
+#define PyArray_ISPOSIT(obj) PyTypeNum_ISPOSIT(PyArray_TYPE(obj))
 #define PyArray_ISNUMBER(obj) PyTypeNum_ISNUMBER(PyArray_TYPE(obj))
 #define PyArray_ISSTRING(obj) PyTypeNum_ISSTRING(PyArray_TYPE(obj))
 #define PyArray_ISCOMPLEX(obj) PyTypeNum_ISCOMPLEX(PyArray_TYPE(obj))
