@@ -1,33 +1,31 @@
 #define NPY_NO_DEPRECATED_API NPY_API_VERSION
+#include "softposit.h"
 #include "numpy/p32posit.h"
 
 
 float npy_posit32_to_float(npy_posit32 p)
 {
-    union { float ret; npy_uint32 retbits; } conv;
-    conv.retbits = npy_posit32bits_to_floatbits(p);
-    return conv.ret;
+    posit32_t u = { .v=p };
+    float f = (float)convertP32ToDouble(u);
+    return f;
 }
 
 double npy_posit32_to_double(npy_posit32 p)
 {
-    union { double ret; npy_uint64 retbits; } conv;
-    conv.retbits = npy_posit32bits_to_doublebits(p);
-    return conv.ret;
+    posit32_t u = { .v=p };
+    return convertP32ToDouble(u);
 }
 
 npy_posit32 npy_float_to_posit32(float f)
 {
-    union { float f; npy_uint32 fbits; } conv;
-    conv.f = f;
-    return npy_floatbits_to_posit32bits(conv.fbits);
+    posit32_t u = convertDoubleToP32((double)f);
+    return u.v;
 }
 
 npy_posit32 npy_double_to_posit32(double d)
 {
-    union { double d; npy_uint64 dbits; } conv;
-    conv.d = d;
-    return npy_doublebits_to_posit32bits(conv.dbits);
+    posit32_t u = convertDoubleToP32(d);
+    return u.v;
 }
 
 int npy_posit32_iszero(npy_posit32 p)
@@ -148,14 +146,16 @@ npy_uint32 npy_halfbits_to_posit32bits(npy_uint16 h)
 
 npy_uint32 npy_floatbits_to_posit32bits(npy_uint32 f)
 {
-    // FIXME
-    return 0;
+    union { float ret; npy_uint32 retbits; } conv = { .retbits=f };
+    posit32_t u = convertDoubleToP32((double)conv.ret);
+    return u.v;
 }
 
 npy_uint32 npy_doublebits_to_posit32bits(npy_uint64 d)
 {
-    // FIXME
-    return 0;
+    union { double ret; npy_uint64 retbits; } conv = { .retbits=d };
+    posit32_t u = convertDoubleToP32(conv.ret);
+    return u.v;
 }
 
 npy_uint16 npy_posit32bits_to_halfbits(npy_uint32 p)
@@ -166,12 +166,16 @@ npy_uint16 npy_posit32bits_to_halfbits(npy_uint32 p)
 
 npy_uint32 npy_posit32bits_to_floatbits(npy_uint32 p)
 {
-    // FIXME
-    return 0;
+    posit32_t u = { .v=p };
+    union { float ret; npy_uint32 retbits; } conv;
+    conv.ret = (float)convertP32ToDouble(u);
+    return conv.retbits;
 }
 
 npy_uint64 npy_posit32bits_to_doublebits(npy_uint32 p)
 {
-    // FIXME
-    return 0;
+    posit32_t u = { .v=p };
+    union { double ret; npy_uint64 retbits; } conv;
+    conv.ret = convertP32ToDouble(u);
+    return conv.retbits;
 }
