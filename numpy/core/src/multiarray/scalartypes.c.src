@@ -1065,11 +1065,11 @@ halftype_@kind@(PyObject *self)
 static PyObject *
 posit32type_@kind@(PyObject *self)
 {
+    char valstr[128];
     npy_posit32 val = ((PyPosit32ScalarObject *)self)->obval;
-    float floatval = npy_posit32_to_float(val);
-    float absval;
-
-    return PyUString_FromString("0.12345");
+    double dval = npy_posit32_to_double(val);
+    snprintf(valstr, sizeof(valstr), "%f", dval);
+    return PyUString_FromString(valstr);
 }
 
 
