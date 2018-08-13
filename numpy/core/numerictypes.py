@@ -886,10 +886,10 @@ del key
 typecodes = {'Character':'c',
              'Integer':'bhilqp',
              'UnsignedInteger':'BHILQP',
-             'Float':'efdg',
+             'Float':'eKfdg',
              'Complex':'FDG',
              'AllInteger':'bBhHiIlLqQpP',
-             'AllFloat':'efdgFDG',
+             'AllFloat':'eKfdgFDG',
              'Datetime': 'Mm',
              'All':'?bhilqpBHILQPefdgFDGSUVOMm'}
 
