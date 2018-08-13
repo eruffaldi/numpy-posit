@@ -1573,6 +1573,15 @@ PyArray_EquivTypes(PyArray_Descr *type1, PyArray_Descr *type2)
         return ((type_num1 == type_num2)
                 && has_equivalent_datetime_metadata(type1, type2));
     }
+    if (PyTypeNum_ISPOSIT(type_num1) || PyTypeNum_ISPOSIT(type_num2)) {
+        /* FIXME: Currently POSIT belongs to FLOAT kind for simplicity.
+         * Unfortunately, numpy considered posit32 and float32 as equivalent
+         * due to being same kind and same size, hence taking shortcuts that
+         * lead to incorrect results.
+         * These checks are currently just a quick fix.
+         */
+        return NPY_FALSE;
+    }
     return type1->kind == type2->kind;
 }
 
