@@ -1,5 +1,6 @@
 #define NPY_NO_DEPRECATED_API NPY_API_VERSION
 #include "softposit.h"
+#include "numpy/halffloat.h"
 #include "numpy/p32posit.h"
 
 
@@ -140,8 +141,10 @@ npy_posit32 npy_posit32_divmod(npy_posit32 h1, npy_posit32 h2, npy_posit32 *modu
 
 npy_uint32 npy_halfbits_to_posit32bits(npy_uint16 h)
 {
-    // FIXME
-    return 0;
+    npy_uint64 d = npy_halfbits_to_doublebits(h);
+    union { double ret; npy_uint64 retbits; } conv = { .retbits=d };
+    posit32_t u = convertDoubleToP32(conv.ret);
+    return u.v;
 }
 
 npy_uint32 npy_floatbits_to_posit32bits(npy_uint32 f)
@@ -160,8 +163,10 @@ npy_uint32 npy_doublebits_to_posit32bits(npy_uint64 d)
 
 npy_uint16 npy_posit32bits_to_halfbits(npy_uint32 p)
 {
-    // FIXME
-    return 0;
+    posit32_t u = { .v=p };
+    union { double ret; npy_uint64 retbits; } conv;
+    conv.ret = convertP32ToDouble(u);
+    return npy_doublebits_to_halfbits(conv.retbits);
 }
 
 npy_uint32 npy_posit32bits_to_floatbits(npy_uint32 p)
