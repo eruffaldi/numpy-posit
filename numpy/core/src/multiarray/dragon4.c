@@ -30,6 +30,7 @@
 
 #include "dragon4.h"
 #include <numpy/npy_common.h>
+#include <numpy/p32posit.h>
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
@@ -3245,9 +3246,10 @@ Dragon4_Positional(PyObject *obj, DigitMode digit_mode, CutoffMode cutoff_mode,
         return Dragon4_Positional_Half_opt(&x, &opt);
     }
     else if (PyArray_IsScalar(obj, Posit32)) {
-        npy_posit32 x = ((PyFloatScalarObject *)obj)->obval;
+        npy_posit32 u = ((PyPosit32ScalarObject *)obj)->obval;
         // FIXME
-        return Dragon4_Positional_Float_opt(&x, &opt);
+        double x = npy_posit32_to_double(u);
+        return Dragon4_Positional_Double_opt(&x, &opt);
     }
     else if (PyArray_IsScalar(obj, Float)) {
         npy_float x = ((PyFloatScalarObject *)obj)->obval;
@@ -3291,9 +3293,10 @@ Dragon4_Scientific(PyObject *obj, DigitMode digit_mode, int precision,
         return Dragon4_Scientific_Half_opt(&x, &opt);
     }
     else if (PyArray_IsScalar(obj, Posit32)) {
-        npy_posit32 x = ((PyPosit32ScalarObject *)obj)->obval;
+        npy_posit32 u = ((PyPosit32ScalarObject *)obj)->obval;
         // FIXME
-        return Dragon4_Scientific_Float_opt(&x, &opt);
+        double x = npy_posit32_to_double(u);
+        return Dragon4_Scientific_Double_opt(&x, &opt);
     }
     else if (PyArray_IsScalar(obj, Float)) {
         npy_float x = ((PyFloatScalarObject *)obj)->obval;
