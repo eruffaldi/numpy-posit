@@ -76,7 +76,11 @@ _fdata_map = dict(e='npy_%sf', K='npy_%sf', f='npy_%sf', d='npy_%s', g='npy_%sl'
 def build_func_data(types, f):
     func_data = []
     for t in types:
-        d = _fdata_map.get(t, '%s') % (f,)
+        # FIXME
+        if t == 'K' and f == 'sqrt':
+            d = 'npy_%sp' % f
+        else:
+            d = _fdata_map.get(t, '%s') % (f,)
         func_data.append(d)
     return func_data
 
@@ -736,6 +740,7 @@ defdict = {
           docstrings.get('numpy.core.umath.sqrt'),
           None,
           TD('e', f='sqrt', astype={'e':'f'}),
+          TD('K', f='sqrt'),
           TD(inexactvec),
           TD(inexact, f='sqrt', astype={'e':'f'}),
           TD(P, f='sqrt'),

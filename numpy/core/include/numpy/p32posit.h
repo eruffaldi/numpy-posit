@@ -1,6 +1,7 @@
 #ifndef __NPY_P32POSIT_H__
 #define __NPY_P32POSIT_H__
 
+#include "softposit.h"
 #include <Python.h>
 #include <numpy/npy_math.h>
 

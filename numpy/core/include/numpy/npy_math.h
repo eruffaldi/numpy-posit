@@ -265,6 +265,8 @@ NPY_INPLACE float npy_copysignf(float x, float y);
 float npy_nextafterf(float x, float y);
 float npy_spacingf(float x);
 
+NPY_INPLACE npy_posit32 npy_sqrtp(npy_posit32 x);
+
 /*
  * long double C99 math functions
  */
