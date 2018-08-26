@@ -372,18 +372,6 @@ NPY_INPLACE double npy_log2(double x)
  * instead test for the macro, but I am lazy to do that for now.
  */
 
-#ifdef sqrtp
-#undef sqrtp
-#endif
-#ifndef HAVE_SQRTP
-NPY_INPLACE npy_posit32 npy_sqrtp(npy_posit32 x)
-{
-    posit32_t p = { .v=x };
-    posit32_t r = p32_sqrt(p);
-    return r.v;
-}
-#endif
-
 /**begin repeat
  * #type = npy_longdouble, npy_float#
  * #TYPE = NPY_LONGDOUBLE, FLOAT#
@@ -464,6 +452,16 @@ NPY_INPLACE @type@ npy_frexp@c@(@type@ x, int* exp)
 /*
  * Decorate all the math functions which are available on the current platform
  */
+
+#ifdef sqrtp
+#undef sqrtp
+#endif
+NPY_INPLACE npy_posit32 npy_sqrtp(npy_posit32 x)
+{
+    posit32_t p = { .v=x };
+    posit32_t r = p32_sqrt(p);
+    return r.v;
+}
 
 /**begin repeat
  * #type = npy_longdouble, npy_double, npy_float#
