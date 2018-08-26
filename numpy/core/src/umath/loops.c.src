@@ -250,7 +250,7 @@
 
 
 typedef float halfUnaryFunc(npy_half x);
-typedef float posit32UnaryFunc(npy_posit32 x);
+typedef npy_posit32 posit32UnaryFunc(npy_posit32 x);
 typedef float floatUnaryFunc(float x);
 typedef double doubleUnaryFunc(double x);
 typedef npy_longdouble longdoubleUnaryFunc(npy_longdouble x);
