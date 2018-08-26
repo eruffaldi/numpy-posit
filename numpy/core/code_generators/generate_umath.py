@@ -110,7 +110,7 @@ def TD(types, f=None, astype=None, in_=None, out=None, simd=None):
         else:
             simdt = []
 
-        if t == 'K' and f is not None and f != 'sqrt':
+        if t == 'K' and f is not None:
             pass
         else:
             tds.append(TypeDescription(t, f=fd, in_=i, out=o, astype=astype, simd=simdt))
@@ -740,7 +740,7 @@ defdict = {
           docstrings.get('numpy.core.umath.sqrt'),
           None,
           TD('e', f='sqrt', astype={'e':'f'}),
-          TD('K', f='sqrt'),
+          TD('K'),
           TD(inexactvec),
           TD(inexact, f='sqrt', astype={'e':'f'}),
           TD(P, f='sqrt'),

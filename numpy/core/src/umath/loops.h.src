@@ -157,7 +157,7 @@ NPY_NO_EXPORT void
  */
 
 /**begin repeat
- *  #TYPE = FLOAT, DOUBLE#
+ *  #TYPE = FLOAT, DOUBLE, POSIT32#
  */
 NPY_NO_EXPORT void
 @TYPE@_sqrt(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func));
