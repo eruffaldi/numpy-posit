@@ -64,7 +64,7 @@ Operating System :: MacOS
 
 MAJOR               = 1
 MINOR               = 15
-MICRO               = 1
+MICRO               = 2
 ISRELEASED          = False
 VERSION             = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 
@@ -368,13 +368,6 @@ def setup_package():
         cmdclass={"sdist": sdist_checked},
         python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*',
         zip_safe=False,
-        entry_points={
-            'console_scripts': [
-                'f2py = numpy.f2py.__main__:main',
-                'conv-template = numpy.distutils.conv_template:main',
-                'from-template = numpy.distutils.from_template:main',
-            ]
-        },
     )
 
     if "--force" in sys.argv:
