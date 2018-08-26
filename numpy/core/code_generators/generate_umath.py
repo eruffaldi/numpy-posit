@@ -71,7 +71,7 @@ class TypeDescription(object):
         assert len(self.out) == nout
         self.astype = self.astype_dict.get(self.type, None)
 
-_fdata_map = dict(e='npy_%sf', K='npy_%sp', f='npy_%sf', d='npy_%s', g='npy_%sl',
+_fdata_map = dict(e='npy_%sf', K='npy_%s_p32', f='npy_%sf', d='npy_%s', g='npy_%sl',
                   F='nc_%sf', D='nc_%s', G='nc_%sl')
 def build_func_data(types, f):
     func_data = []

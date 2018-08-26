@@ -265,8 +265,6 @@ NPY_INPLACE float npy_copysignf(float x, float y);
 float npy_nextafterf(float x, float y);
 float npy_spacingf(float x);
 
-NPY_INPLACE npy_posit32 npy_sqrtp(npy_posit32 x);
-
 /*
  * long double C99 math functions
  */
@@ -309,6 +307,11 @@ NPY_INPLACE npy_longdouble npy_ldexpl(npy_longdouble x, int y);
 NPY_INPLACE npy_longdouble npy_copysignl(npy_longdouble x, npy_longdouble y);
 npy_longdouble npy_nextafterl(npy_longdouble x, npy_longdouble y);
 npy_longdouble npy_spacingl(npy_longdouble x);
+
+/*
+ * Posit functions
+ */
+NPY_INPLACE npy_posit32 npy_sqrt_p32(npy_posit32 x);
 
 /*
  * Non standard functions

@@ -453,10 +453,7 @@ NPY_INPLACE @type@ npy_frexp@c@(@type@ x, int* exp)
  * Decorate all the math functions which are available on the current platform
  */
 
-#ifdef sqrtp
-#undef sqrtp
-#endif
-NPY_INPLACE npy_posit32 npy_sqrtp(npy_posit32 x)
+NPY_INPLACE npy_posit32 npy_sqrt_p32(npy_posit32 x)
 {
     posit32_t p = { .v=x };
     posit32_t r = p32_sqrt(p);
