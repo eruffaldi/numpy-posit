@@ -71,16 +71,12 @@ class TypeDescription(object):
         assert len(self.out) == nout
         self.astype = self.astype_dict.get(self.type, None)
 
-_fdata_map = dict(e='npy_%sf', K='npy_%sf', f='npy_%sf', d='npy_%s', g='npy_%sl',
+_fdata_map = dict(e='npy_%sf', K='npy_%sp', f='npy_%sf', d='npy_%s', g='npy_%sl',
                   F='nc_%sf', D='nc_%s', G='nc_%sl')
 def build_func_data(types, f):
     func_data = []
     for t in types:
-        # FIXME
-        if t == 'K' and f == 'sqrt':
-            d = 'npy_%sp' % f
-        else:
-            d = _fdata_map.get(t, '%s') % (f,)
+        d = _fdata_map.get(t, '%s') % (f,)
         func_data.append(d)
     return func_data
 
@@ -113,7 +109,11 @@ def TD(types, f=None, astype=None, in_=None, out=None, simd=None):
             simdt = [k for k, v in simd if t in v]
         else:
             simdt = []
-        tds.append(TypeDescription(t, f=fd, in_=i, out=o, astype=astype, simd=simdt))
+
+        if t == 'K' and f != 'sqrt':
+            pass
+        else:
+            tds.append(TypeDescription(t, f=fd, in_=i, out=o, astype=astype, simd=simdt))
     return tds
 
 class Ufunc(object):
