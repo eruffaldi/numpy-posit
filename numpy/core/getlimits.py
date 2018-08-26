@@ -145,6 +145,8 @@ _float32_ma = MachArLike(_f32,
                          huge=_f32((1 - 2 ** -24) * 2**128),
                          tiny=exp2(_f32(-126)))
 
+"""
+# FIXME
 _p32 = ntypes.posit32
 _posit32_ma = MachArLike(_p32,
                          machep=-10,
@@ -160,6 +162,7 @@ _posit32_ma = MachArLike(_p32,
                          epsneg=exp2(_f32(-11)),
                          huge=_f32(65504),
                          tiny=_f32(2 ** -14))
+"""
 
 # Known parameters for float64
 _f64 = ntypes.float64
