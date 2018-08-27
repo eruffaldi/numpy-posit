@@ -891,7 +891,7 @@ typecodes = {'Character':'c',
              'AllInteger':'bBhHiIlLqQpP',
              'AllFloat':'eKfdgFDG',
              'Datetime': 'Mm',
-             'All':'?bhilqpBHILQPefdgFDGSUVOMm'}
+             'All':'?bhilqpBHILQPeKfdgFDGSUVOMm'}
 
 # backwards compatibility --- deprecated name
 typeDict = sctypeDict
