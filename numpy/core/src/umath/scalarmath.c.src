@@ -335,14 +335,17 @@ half_ctype_divmod(npy_half a, npy_half b, npy_half *out1, npy_half *out2) {
 }
 
 
-#define posit32_ctype_add(a, b, outp) *(outp) = \
-        npy_float_to_posit32(npy_posit32_to_float(a) + npy_posit32_to_float(b))
-#define posit32_ctype_subtract(a, b, outp) *(outp) = \
-        npy_float_to_posit32(npy_posit32_to_float(a) - npy_posit32_to_float(b))
-#define posit32_ctype_multiply(a, b, outp) *(outp) = \
-        npy_float_to_posit32(npy_posit32_to_float(a) * npy_posit32_to_float(b))
-#define posit32_ctype_divide(a, b, outp) *(outp) = \
-        npy_float_to_posit32(npy_posit32_to_float(a) / npy_posit32_to_float(b))
+#define POSIT32_CTYPE_BINOP(op, a, b, outp) do{ \
+    posit32_t pa = { .v=a };                    \
+    posit32_t pb = { .v=b };                    \
+    posit32_t pc = p32_##op(pa, pb);            \
+    *(outp) = pc.v;                             \
+} while(0)
+
+#define posit32_ctype_add(a, b, outp)       POSIT32_CTYPE_BINOP(add, a, b, outp);
+#define posit32_ctype_subtract(a, b, outp)  POSIT32_CTYPE_BINOP(sub, a, b, outp);
+#define posit32_ctype_multiply(a, b, outp)  POSIT32_CTYPE_BINOP(mul, a, b, outp);
+#define posit32_ctype_divide(a, b, outp)    POSIT32_CTYPE_BINOP(div, a, b, outp);
 #define posit32_ctype_true_divide posit32_ctype_divide
 
 
