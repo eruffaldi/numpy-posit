@@ -3984,6 +3984,9 @@ initialize_casting_tables(void)
      * #from_isfloat = 0, 0, 0, 0, 0, 0, 0, 0,
      *                 0, 0, 1, 0, 1, 1, 1,
      *                 0, 0, 0#
+     * #from_isposit = 0, 0, 0, 0, 0, 0, 0, 0,
+     *                 0, 0, 0, 1, 0, 0, 0,
+     *                 0, 0, 0#
      * #from_iscomplex = 0, 0, 0, 0, 0, 0, 0, 0,
      *                   0, 0, 0, 0, 0, 0, 0,
      *                   1, 1, 1#
@@ -4018,6 +4021,9 @@ initialize_casting_tables(void)
      * #to_isfloat = 0, 0, 0, 0, 0, 0, 0, 0,
      *               0, 0, 1, 0, 1, 1, 1,
      *               0, 0, 0#
+     * #to_isposit = 0, 0, 0, 0, 0, 0, 0, 0,
+     *               0, 0, 0, 1, 0, 0, 0,
+     *               0, 0, 0#
      * #to_iscomplex = 0, 0, 0, 0, 0, 0, 0, 0,
      *                 0, 0, 0, 0, 0, 0, 0,
      *                 1, 1, 1#
@@ -4042,6 +4048,9 @@ initialize_casting_tables(void)
 #  elif @to_isfloat@ && (_FROM_BSIZE >= 8) && (_TO_BSIZE >= _FROM_BSIZE)
     /* int -> float */
     _npy_can_cast_safely_table[_FROM_NUM][_TO_NUM] = 1;
+#  elif @to_isposit@
+    /* int -> posit */
+    _npy_can_cast_safely_table[_FROM_NUM][_TO_NUM] = 1;
 #  elif @to_iscomplex@ && (_FROM_BSIZE < 8) && (_TO_BSIZE > _FROM_BSIZE)
     /* int -> complex */
     _npy_can_cast_safely_table[_FROM_NUM][_TO_NUM] = 1;
@@ -4064,6 +4073,9 @@ initialize_casting_tables(void)
 #  elif @to_isfloat@ && (_FROM_BSIZE >= 8) && (_TO_BSIZE >= _FROM_BSIZE)
     /* uint -> float */
     _npy_can_cast_safely_table[_FROM_NUM][_TO_NUM] = 1;
+#  elif @to_isposit@
+    /* uint -> posit */
+    _npy_can_cast_safely_table[_FROM_NUM][_TO_NUM] = 1;
 #  elif @to_iscomplex@ && (_FROM_BSIZE < 8) && (_TO_BSIZE > _FROM_BSIZE)
     /* uint -> complex */
     _npy_can_cast_safely_table[_FROM_NUM][_TO_NUM] = 1;
@@ -4077,6 +4089,9 @@ initialize_casting_tables(void)
 
 #  if @to_isfloat@ && (_TO_BSIZE >= _FROM_BSIZE)
     /* float -> float */
+    _npy_can_cast_safely_table[_FROM_NUM][_TO_NUM] = 1;
+#  elif @to_isposit@
+    /* float -> posit */
     _npy_can_cast_safely_table[_FROM_NUM][_TO_NUM] = 1;
 #  elif @to_iscomplex@ && (_TO_BSIZE >= _FROM_BSIZE)
     /* float -> complex */
