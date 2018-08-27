@@ -466,7 +466,7 @@ _set_array_types()
 
 genericTypeRank = ['bool', 'int8', 'uint8', 'int16', 'uint16',
                    'int32', 'uint32', 'int64', 'uint64', 'int128', 'uint128',
-                   'float16', 'posit32', 'float32', 'float64', 'float80', 'float96', 'float128', 'float256',
+                   'float16', 'float32', 'float64', 'posit32', 'float80', 'float96', 'float128', 'float256',
                    'complex32', 'complex64p', 'complex64', 'complex128', 'complex160', 'complex192', 'complex256', 'complex512', 'object']
 
 def maximum_sctype(t):
