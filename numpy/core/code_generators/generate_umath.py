@@ -110,7 +110,7 @@ def TD(types, f=None, astype=None, in_=None, out=None, simd=None):
         else:
             simdt = []
 
-        if t == 'K' and f is not None:
+        if t == 'K' and f is not None and f != 'sqrt':
             pass
         else:
             tds.append(TypeDescription(t, f=fd, in_=i, out=o, astype=astype, simd=simdt))
@@ -204,10 +204,10 @@ chartoname = {'?': 'bool',
               'q': 'longlong',
               'Q': 'ulonglong',
               'e': 'half',
-              'K': 'posit32',
               'f': 'float',
               'd': 'double',
               'g': 'longdouble',
+              'K': 'posit32',
               'F': 'cfloat',
               'D': 'cdouble',
               'G': 'clongdouble',
@@ -219,7 +219,7 @@ chartoname = {'?': 'bool',
               'P': 'OBJECT',
               }
 
-all = '?bBhHiIlLqQeKfdgFDGOMm'
+all = '?bBhHiIlLqQefdgKFDGOMm'
 O = 'O'
 P = 'P'
 ints = 'bBhHiIlLqQ'
@@ -228,7 +228,7 @@ timedeltaonly = 'm'
 intsO = ints + O
 bints = '?' + ints
 bintsO = bints + O
-flts = 'eKfdg'
+flts = 'efdgK'
 fltsO = flts + O
 fltsP = flts + P
 cmplx = 'FDG'
@@ -740,8 +740,8 @@ defdict = {
           docstrings.get('numpy.core.umath.sqrt'),
           None,
           TD('e', f='sqrt', astype={'e':'f'}),
-          TD('K'),
           TD(inexactvec),
+          TD('K'),
           TD(inexact, f='sqrt', astype={'e':'f'}),
           TD(P, f='sqrt'),
           ),
