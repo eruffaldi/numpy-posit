@@ -2502,7 +2502,7 @@ HALF_ldexp_long(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UN
 
 /*
  *****************************************************************************
- **                          POSIT32-FLOAT LOOPS                               **
+ **                          POSIT32 LOOPS                                  **
  *****************************************************************************
  */
 
@@ -2511,30 +2511,30 @@ HALF_ldexp_long(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UN
  * Arithmetic
  * # kind = add, subtract, multiply, divide#
  * # OP = +, -, *, /#
- * # PW = 1, 0, 0, 0#
+ * # POSITOP = add, sub, mul, div#
+ * # PW = 0, 0, 0, 0#
  */
 NPY_NO_EXPORT void
 POSIT32_@kind@(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
 {
     if (IS_BINARY_REDUCE) {
         char *iop1 = args[0];
-        float io1 = npy_posit32_to_float(*(npy_posit32 *)iop1);
+        posit32_t acc = { .v=*(npy_posit32 *)iop1 };
 #if @PW@
-        npy_intp n = dimensions[0];
-
-        io1 @OP@= pairwise_sum_POSIT32(args[1], n, steps[1]);
 #else
         BINARY_REDUCE_LOOP_INNER {
-            io1 @OP@= npy_posit32_to_float(*(npy_posit32 *)ip2);
+            const posit32_t in2 = { .v=*(npy_posit32 *)ip2 };
+            acc = p32_@POSITOP@(acc, in2);
         }
 #endif
-        *((npy_posit32 *)iop1) = npy_float_to_posit32(io1);
+        *((npy_posit32 *)iop1) = acc.v;
     }
     else {
         BINARY_LOOP {
-            const float in1 = npy_posit32_to_float(*(npy_posit32 *)ip1);
-            const float in2 = npy_posit32_to_float(*(npy_posit32 *)ip2);
-            *((npy_posit32 *)op1) = npy_float_to_posit32(in1 @OP@ in2);
+            const posit32_t in1 = { .v=*(npy_posit32 *)ip1 };
+            const posit32_t in2 = { .v=*(npy_posit32 *)ip2 };
+            posit32_t r = p32_@POSITOP@(in1, in2);
+            *((npy_posit32 *)op1) = r.v;
         }
     }
 }
