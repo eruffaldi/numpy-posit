@@ -3501,6 +3501,10 @@ arraydescr_construction_repr(PyArray_Descr *dtype, int includealignflag,
             return PyUString_FromString("'bool'");
         }
     }
+    else if (PyTypeNum_ISPOSIT(dtype->type_num)) {
+        char *kindstr = "posit";
+        return PyUString_FromFormat("'%s%d'", kindstr, 8*dtype->elsize);
+    }
     else if (PyTypeNum_ISNUMBER(dtype->type_num)) {
         /* Short repr with endianness, like '<f8' */
         if (shortrepr || (dtype->byteorder != NPY_NATIVE &&
