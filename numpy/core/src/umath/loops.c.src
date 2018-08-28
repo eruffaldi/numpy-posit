@@ -1733,12 +1733,12 @@ POSIT32_sqrt(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSE
 
 /**begin repeat
  * Float types
- *  #type = npy_float, npy_double, npy_longdouble, npy_float, npy_float#
- *  #dtype = npy_float, npy_double, npy_longdouble, npy_half, npy_posit32#
- *  #TYPE = FLOAT, DOUBLE, LONGDOUBLE, HALF, POSIT32#
- *  #c = f, , l,, #
- *  #C = F, , L,, #
- *  #trf = , , , npy_half_to_float, npy_posit32_to_float#
+ *  #type = npy_float, npy_double, npy_longdouble, npy_float#
+ *  #dtype = npy_float, npy_double, npy_longdouble, npy_half#
+ *  #TYPE = FLOAT, DOUBLE, LONGDOUBLE, HALF#
+ *  #c = f, , l, #
+ *  #C = F, , L, #
+ *  #trf = , , , npy_half_to_float#
  */
 
 /*
