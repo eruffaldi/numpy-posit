@@ -276,6 +276,7 @@ def bitname(obj):
 
     if name == 'posit32':
         char = 'K'
+        # FIXME
         base = 'float'
 
     bytes = bits // 8
