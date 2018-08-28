@@ -3926,7 +3926,7 @@ initialize_casting_tables(void)
      * #BIGGERTYPE = -1,
      *         NPY_SHORT, NPY_USHORT, NPY_INT, NPY_UINT, NPY_LONG, NPY_ULONG,
      *         NPY_LONGLONG, NPY_ULONGLONG, -1, -1,
-     *         NPY_FLOAT, NPY_DOUBLE, NPY_DOUBLE, NPY_LONGDOUBLE, -1,
+     *         NPY_FLOAT, -1, NPY_DOUBLE, NPY_LONGDOUBLE, -1,
      *         NPY_CDOUBLE, NPY_CLONGDOUBLE, -1#
      * #SCKIND = BOOL,
      *           (INTNEG, INTPOS)*5,
