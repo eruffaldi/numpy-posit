@@ -2692,8 +2692,9 @@ NPY_NO_EXPORT void
 POSIT32_square(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(data))
 {
     UNARY_LOOP {
-        const float in1 = npy_posit32_to_float(*(npy_posit32 *)ip1);
-        *((npy_posit32 *)op1) = npy_float_to_posit32(in1*in1);
+        const posit32_t in1 = { .v=*(npy_posit32 *)ip1 };
+        posit32_t r = p32_mul(in1, in1);
+        *((npy_posit32 *)op1) = r.v;
     }
 }
 
