@@ -2647,7 +2647,7 @@ POSIT32_@kind@(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNU
     BINARY_LOOP {
         const npy_posit32 in1 = *(npy_posit32 *)ip1;
         const npy_posit32 in2 = *(npy_posit32 *)ip2;
-        *((npy_posit32 *)op1) = (@OP@(in1, in2) || npy_posit32_isnan(in2)) ? in1 : in2;
+        *((npy_posit32 *)op1) = @OP@(in1, in2) ? in1 : in2;
     }
 }
 /**end repeat**/
