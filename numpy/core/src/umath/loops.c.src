@@ -2740,7 +2740,7 @@ POSIT32_negative(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_U
 {
     UNARY_LOOP {
         const npy_posit32 in1 = *(npy_posit32 *)ip1;
-        *((npy_posit32 *)op1) = in1^0x8000u;
+        *((npy_posit32 *)op1) = -in1;
     }
 }
 
