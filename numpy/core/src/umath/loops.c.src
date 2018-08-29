@@ -2756,12 +2756,11 @@ POSIT32_positive(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_U
 NPY_NO_EXPORT void
 POSIT32_sign(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
 {
-    /* Sign of nan is nan */
     UNARY_LOOP {
         const npy_posit32 in1 = *(npy_posit32 *)ip1;
         *((npy_posit32 *)op1) = npy_posit32_isnan(in1) ? in1 :
-                    (((in1&0x7fffu) == 0) ? 0 :
-                      (((in1&0x8000u) == 0) ? NPY_POSIT32_ONE : NPY_POSIT32_NEGONE));
+            ((in1 == NPY_POSIT32_ZERO) ? NPY_POSIT32_ZERO :
+                (((in1 >> 31) == 0) ? NPY_POSIT32_ONE : NPY_POSIT32_NEGONE));
     }
 }
 
