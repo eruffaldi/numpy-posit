@@ -1207,11 +1207,12 @@ static void
 POSIT32_to_@TYPE@(void *input, void *output, npy_intp n,
         void *NPY_UNUSED(aip), void *NPY_UNUSED(aop))
 {
+    /* FIXME: data types conversions supported by softposit should use the specific conversion functions. */
     const npy_posit32 *ip = input;
     @type@ *op = output;
 
     while (n--) {
-        *op++ = (@type@)npy_posit32_to_float(*ip++);
+        *op++ = (@type@)npy_posit32_to_double(*ip++);
     }
 }
 
