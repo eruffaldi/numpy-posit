@@ -3748,14 +3748,15 @@ static void
 POSIT32_dot(char *ip1, npy_intp is1, char *ip2, npy_intp is2, char *op,
          npy_intp n, void *NPY_UNUSED(ignore))
 {
-    float tmp = 0.0f;
+    posit32_t acc = { .v=NPY_POSIT32_ZERO };
     npy_intp i;
 
     for (i = 0; i < n; i++, ip1 += is1, ip2 += is2) {
-        tmp += npy_posit32_to_float(*((npy_posit32 *)ip1)) *
-               npy_posit32_to_float(*((npy_posit32 *)ip2));
+        posit32_t in1 = { .v=*((npy_posit32 *)ip1) };
+        posit32_t in2 = { .v=*((npy_posit32 *)ip2) };
+        acc = p32_mulAdd(in1, in2, acc);
     }
-    *((npy_posit32 *)op) = npy_float_to_posit32(tmp);
+    *((npy_posit32 *)op) = acc.v;
 }
 
 static void
