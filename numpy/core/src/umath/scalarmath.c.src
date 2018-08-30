@@ -463,6 +463,7 @@ half_ctype_power(npy_half a, npy_half b, npy_half *out)
 static void
 posit32_ctype_power(npy_posit32 a, npy_posit32 b, npy_posit32 *out)
 {
+    // FIXME
     const npy_float af = npy_posit32_to_float(a);
     const npy_float bf = npy_posit32_to_float(b);
     const npy_float outf = _basic_float_pow(af,bf);
@@ -1453,6 +1454,7 @@ emit_complexwarning(void)
 static PyObject *
 @name@_int(PyObject *obj)
 {
+    // FIXME: To test if posit32 need no conversion to double.
     PyObject *long_result;
 
 #if @cmplx@
@@ -1506,6 +1508,7 @@ static PyObject *
 static NPY_INLINE PyObject *
 @name@_@which@(PyObject *obj)
 {
+    // FIXME: To test if posit32 need no conversion to double.
 #if @cmplx@
     if (emit_complexwarning() < 0) {
         return NULL;

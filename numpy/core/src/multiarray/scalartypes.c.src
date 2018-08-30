@@ -1065,6 +1065,7 @@ halftype_@kind@(PyObject *self)
 static PyObject *
 posit32type_@kind@(PyObject *self)
 {
+    // FIXME
     char valstr[128];
     npy_posit32 val = ((PyPosit32ScalarObject *)self)->obval;
     double dval = npy_posit32_to_double(val);
