@@ -949,6 +949,34 @@ class FloatingFormat(object):
                                       pad_left=self.pad_left,
                                       pad_right=self.pad_right)
 
+class Posit32Format(FloatingFormat):
+    def __init__(self, *args, **kwargs):
+        super(Posit32Format, self).__init__(*args, **kwargs)
+
+    def __call__(self, x):
+        if not np.isfinite(x):
+            with errstate(invalid='ignore'):
+                ret = 'NaR'
+                return ' '*(self.pad_left + self.pad_right + 1 - len(ret)) + ret
+
+        if self.exp_format:
+            return dragon4_scientific(x,
+                                      precision=self.precision,
+                                      unique=self.unique,
+                                      trim=self.trim,
+                                      sign=self.sign == '+',
+                                      pad_left=self.pad_left,
+                                      exp_digits=self.exp_size)
+        else:
+            return dragon4_positional(x,
+                                      precision=self.precision,
+                                      unique=self.unique,
+                                      fractional=True,
+                                      trim=self.trim,
+                                      sign=self.sign == '+',
+                                      pad_left=self.pad_left,
+                                      pad_right=self.pad_right)
+
 # for back-compatibility, we keep the classes for each float type too
 class FloatFormat(FloatingFormat):
     def __init__(self, *args, **kwargs):
