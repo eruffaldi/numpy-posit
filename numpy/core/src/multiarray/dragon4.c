@@ -2270,30 +2270,9 @@ static npy_uint32
 Dragon4_PrintFloat_POSIT_binary32(
         Dragon4_Scratch *scratch, npy_posit32 *value, Dragon4_Options *opt)
 {
-    char *buffer = scratch->repr;
-    npy_uint32 bufferSize = sizeof(scratch->repr);
-    BigInt *bigints = scratch->bigints;
-
-    npy_uint32 val = *value;
-
-    /* if this is a special value */
-    if (val == 0x80000000U) {
-        //return PrintInfNan(buffer, bufferSize, floatMantissa, 3, signbit);
-        buffer[0] = 'N';
-        buffer[1] = 'a';
-        buffer[2] = 'R';
-        buffer[3] = '\0';
-        return 4;
-    }
-    /* else this is a number */
-
-    /* factor the value into its parts */
-    buffer[0] = 'P';
-    buffer[1] = 'S';
-    buffer[2] = '\0';
-    return 3;
-    //return Format_floatbits(buffer, bufferSize, bigints, exponent,
-    //                        signbit, mantissaBit, hasUnequalMargins, opt);
+    // FIXME
+    NPY_ERR("NotImplemented: Dragon4_PrintFloat_POSIT_binary32");
+    return 0;
 }
 
 /*
@@ -3192,10 +3171,66 @@ Dragon4_Scientific_##Type(npy_type *val, DigitMode digit_mode, int precision,\
         make_dragon4_typefuncs_inner(Type, npy_type, format)
 
 make_dragon4_typefuncs(Half, npy_half, NPY_HALF_BINFMT_NAME)
-make_dragon4_typefuncs(Posit32, npy_posit32, NPY_POSIT32_BINFMT_NAME)
 make_dragon4_typefuncs(Float, npy_float, NPY_FLOAT_BINFMT_NAME)
 make_dragon4_typefuncs(Double, npy_double, NPY_DOUBLE_BINFMT_NAME)
 make_dragon4_typefuncs(LongDouble, npy_longdouble, NPY_LONGDOUBLE_BINFMT_NAME)
+
+PyObject* Dragon4_Positional_Posit32_opt(npy_posit32 *val, Dragon4_Options *opt)
+{
+    if (*val == NPY_POSIT32_NAR) {
+        return PyUString_FromString("NaR");
+    }
+    // FIXME
+    double x = npy_posit32_to_double(*val);
+    return Dragon4_Positional_Double_opt(&x, opt);
+}
+
+PyObject* Dragon4_Positional_Posit32(npy_posit32 *val, DigitMode digit_mode,
+    CutoffMode cutoff_mode, int precision,
+    int sign, TrimMode trim, int pad_left, int pad_right)
+{
+    Dragon4_Options opt;
+
+    opt.scientific = 0;
+    opt.digit_mode = digit_mode;
+    opt.cutoff_mode = cutoff_mode;
+    opt.precision = precision;
+    opt.sign = sign;
+    opt.trim_mode = trim;
+    opt.digits_left = pad_left;
+    opt.digits_right = pad_right;
+    opt.exp_digits = -1;
+
+    return Dragon4_Positional_Posit32_opt(val, &opt);
+}
+
+PyObject* Dragon4_Scientific_Posit32_opt(npy_posit32 *val, Dragon4_Options *opt)
+{
+    if (*val == NPY_POSIT32_NAR) {
+        return PyUString_FromString("NaR");
+    }
+    // FIXME
+    double x = npy_posit32_to_double(*val);
+    return Dragon4_Scientific_Double_opt(&x, opt);
+}
+
+PyObject* Dragon4_Scientific_Posit32(npy_posit32 *val, DigitMode digit_mode, int precision,
+    int sign, TrimMode trim, int pad_left, int exp_digits)
+{
+    Dragon4_Options opt;
+
+    opt.scientific = 1;
+    opt.digit_mode = digit_mode;
+    opt.cutoff_mode = CutoffMode_TotalLength;
+    opt.precision = precision;
+    opt.sign = sign;
+    opt.trim_mode = trim;
+    opt.digits_left = pad_left;
+    opt.digits_right = -1;
+    opt.exp_digits = exp_digits;
+
+    return Dragon4_Scientific_Posit32_opt(val, &opt);
+}
 
 #undef make_dragon4_typefuncs
 #undef make_dragon4_typefuncs_inner
@@ -3223,10 +3258,8 @@ Dragon4_Positional(PyObject *obj, DigitMode digit_mode, CutoffMode cutoff_mode,
         return Dragon4_Positional_Half_opt(&x, &opt);
     }
     else if (PyArray_IsScalar(obj, Posit32)) {
-        npy_posit32 u = ((PyPosit32ScalarObject *)obj)->obval;
-        // FIXME
-        double x = npy_posit32_to_double(u);
-        return Dragon4_Positional_Double_opt(&x, &opt);
+        npy_posit32 x = ((PyPosit32ScalarObject *)obj)->obval;
+        return Dragon4_Positional_Posit32_opt(&x, &opt);
     }
     else if (PyArray_IsScalar(obj, Float)) {
         npy_float x = ((PyFloatScalarObject *)obj)->obval;
@@ -3270,10 +3303,8 @@ Dragon4_Scientific(PyObject *obj, DigitMode digit_mode, int precision,
         return Dragon4_Scientific_Half_opt(&x, &opt);
     }
     else if (PyArray_IsScalar(obj, Posit32)) {
-        npy_posit32 u = ((PyPosit32ScalarObject *)obj)->obval;
-        // FIXME
-        double x = npy_posit32_to_double(u);
-        return Dragon4_Scientific_Double_opt(&x, &opt);
+        npy_posit32 x = ((PyPosit32ScalarObject *)obj)->obval;
+        return Dragon4_Scientific_Posit32_opt(&x, &opt);
     }
     else if (PyArray_IsScalar(obj, Float)) {
         npy_float x = ((PyFloatScalarObject *)obj)->obval;
