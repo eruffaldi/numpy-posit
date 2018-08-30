@@ -796,7 +796,7 @@ NPY_NO_EXPORT PyArray_StridedUnaryOp *
 #  elif @is_bool2@
 #    define _CONVERT_FN(x) ((npy_bool)!npy_posit32_iszero(x))
 #  else
-#    define _CONVERT_FN(x) ((_TYPE2)npy_posit32_to_float(x))
+#    define _CONVERT_FN(x) ((_TYPE2)npy_posit32_to_double(x))
 #  endif
 
 #elif @is_half2@
@@ -816,7 +816,7 @@ NPY_NO_EXPORT PyArray_StridedUnaryOp *
 #  elif @is_double1@
 #    define _CONVERT_FN(x) npy_doublebits_to_posit32bits(x)
 #  else
-#    define _CONVERT_FN(x) npy_float_to_posit32((float)x)
+#    define _CONVERT_FN(x) npy_double_to_posit32((double)x)
 #  endif
 
 #else
