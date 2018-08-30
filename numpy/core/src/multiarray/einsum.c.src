@@ -78,15 +78,15 @@
  *         npy_cfloat, npy_cdouble, npy_clongdouble#
  * #temptype = npy_byte, npy_short, npy_int, npy_long, npy_longlong,
  *             npy_ubyte, npy_ushort, npy_uint, npy_ulong, npy_ulonglong,
- *             npy_float, npy_float, npy_float, npy_double, npy_longdouble,
+ *             npy_float, npy_double, npy_float, npy_double, npy_longdouble,
  *             npy_float, npy_double, npy_longdouble#
  * #to = ,,,,,
  *       ,,,,,
- *       npy_float_to_half,npy_float_to_posit32,,,,
+ *       npy_float_to_half,npy_double_to_posit32,,,,
  *       ,,#
  * #from = ,,,,,
  *         ,,,,,
- *         npy_half_to_float,npy_posit32_to_float,,,,
+ *         npy_half_to_float,npy_posit32_to_double,,,,
  *         ,,#
  * #complex = 0*5,
  *            0*5,
