@@ -980,6 +980,12 @@ class Posit32Format(FloatingFormat):
                                       pad_left=self.pad_left,
                                       pad_right=self.pad_right)
 
+    # Spaces around NaR may not be padded correctly.
+    # The fillFormat() inherited is specific to floating-point format with +inf, -inf, nan.
+    # The infstr and nanstr may be set to different lengths.
+    # These are not used for posit32.
+    #def fillFormat(self, data):
+
 # for back-compatibility, we keep the classes for each float type too
 class FloatFormat(FloatingFormat):
     def __init__(self, *args, **kwargs):
