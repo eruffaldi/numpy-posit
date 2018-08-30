@@ -358,6 +358,7 @@ def _get_formatdict(data, **opt):
             FloatingFormat(data, prec, fmode, supp, sign, legacy=legacy),
         'longfloat': lambda:
             FloatingFormat(data, prec, fmode, supp, sign, legacy=legacy),
+        'posit32': lambda: Posit32Format(data, prec, fmode, supp, sign, legacy=legacy),
         'complexfloat': lambda:
             ComplexFloatingFormat(data, prec, fmode, supp, sign, legacy=legacy),
         'longcomplexfloat': lambda:
@@ -413,7 +414,9 @@ def _get_format_function(data, **options):
         else:
             return formatdict['int']()
     elif issubclass(dtypeobj, _nt.floating):
-        if issubclass(dtypeobj, _nt.longfloat):
+        if issubclass(dtypeobj, _nt.posit32):
+            return formatdict['posit32']()
+        elif issubclass(dtypeobj, _nt.longfloat):
             return formatdict['longfloat']()
         else:
             return formatdict['float']()
