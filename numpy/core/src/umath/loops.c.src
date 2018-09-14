@@ -2504,6 +2504,16 @@ POSIT32_sqrt(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSE
     }
 }
 
+NPY_NO_EXPORT void
+POSIT32_power(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit32 in1 = *(npy_posit32 *)ip1;
+        const npy_posit32 in2 = *(npy_posit32 *)ip2;
+        *(npy_posit32 *)op1 = npy_pow_p32(in1, in2);
+    }
+}
+
 /**begin repeat
  * Arithmetic
  * # kind = add, subtract, multiply, divide#

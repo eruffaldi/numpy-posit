@@ -110,7 +110,7 @@ def TD(types, f=None, astype=None, in_=None, out=None, simd=None):
         else:
             simdt = []
 
-        if t == 'K' and f is not None and f != 'sqrt':
+        if t == 'K' and f is not None and f != 'sqrt' and f != 'pow':
             pass
         else:
             tds.append(TypeDescription(t, f=fd, in_=i, out=o, astype=astype, simd=simdt))

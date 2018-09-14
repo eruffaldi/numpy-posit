@@ -312,6 +312,7 @@ npy_longdouble npy_spacingl(npy_longdouble x);
  * Posit functions
  */
 NPY_INPLACE npy_posit32 npy_sqrt_p32(npy_posit32 x);
+NPY_INPLACE npy_posit32 npy_pow_p32(npy_posit32 x, npy_posit32 y);
 
 /*
  * Non standard functions
