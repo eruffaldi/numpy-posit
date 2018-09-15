@@ -59,7 +59,7 @@ _MACHAR_PARAMS = {
         title = _title_fmt.format('half')),
     ntypes.posit32: dict(
         itype = ntypes.int32,
-        fmt = '%12.5e',
+        fmt = '%15.7e',
         title = _title_fmt.format('posit32'))}
 
 
@@ -145,24 +145,22 @@ _float32_ma = MachArLike(_f32,
                          huge=_f32((1 - 2 ** -24) * 2**128),
                          tiny=exp2(_f32(-126)))
 
-"""
-# FIXME
+# FIXME: posit: to use the right values.
 _p32 = ntypes.posit32
 _posit32_ma = MachArLike(_p32,
-                         machep=-10,
-                         negep=-11,
-                         minexp=-14,
-                         maxexp=16,
-                         it=10,
-                         iexp=5,
+                         machep=-120,
+                         negep=-120,
+                         minexp=-120,
+                         maxexp=120,
+                         it=27,
+                         iexp=4,
                          ibeta=2,
                          irnd=5,
                          ngrd=0,
-                         eps=exp2(_f32(-10)),
-                         epsneg=exp2(_f32(-11)),
-                         huge=_f32(65504),
-                         tiny=_f32(2 ** -14))
-"""
+                         eps=exp2(_f32(-120)),
+                         epsneg=exp2(_f32(-120)),
+                         huge=_f32(2.0**120.0),
+                         tiny=_f32(2.0**-120.0))
 
 # Known parameters for float64
 _f64 = ntypes.float64
@@ -254,6 +252,7 @@ _float_dd_ma = MachArLike(_ld,
 # See:
 # https://perl5.git.perl.org/perl.git/blob/3118d7d684b56cbeb702af874f4326683c45f045:/Configure
 _KNOWN_TYPES = {
+    b'333\xdb': _posit32_ma,
     b'\x9a\x99\x99\x99\x99\x99\xb9\xbf' : _float64_ma,
     b'\xcd\xcc\xcc\xbd' : _float32_ma,
     b'f\xae' : _float16_ma,
