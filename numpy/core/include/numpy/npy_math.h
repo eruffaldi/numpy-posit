@@ -313,6 +313,7 @@ npy_longdouble npy_spacingl(npy_longdouble x);
  */
 NPY_INPLACE npy_posit32 npy_sqrt_p32(npy_posit32 x);
 NPY_INPLACE npy_posit32 npy_pow_p32(npy_posit32 x, npy_posit32 y);
+NPY_INPLACE npy_posit32 npy_log10_p32(npy_posit32 x);
 
 /*
  * Non standard functions

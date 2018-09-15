@@ -471,6 +471,15 @@ NPY_INPLACE npy_posit32 npy_pow_p32(npy_posit32 x, npy_posit32 y)
     return pr.v;
 }
 
+NPY_INPLACE npy_posit32 npy_log10_p32(npy_posit32 x)
+{
+    posit32_t px = { .v=x };
+    double fx = convertP32ToDouble(px);
+    double fr = npy_log10(fx);
+    posit32_t pr = convertDoubleToP32(fr);
+    return pr.v;
+}
+
 /**begin repeat
  * #type = npy_longdouble, npy_double, npy_float#
  * #c = l,,f#
