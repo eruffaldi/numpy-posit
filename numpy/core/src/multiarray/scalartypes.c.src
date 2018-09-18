@@ -4164,6 +4164,16 @@ initialize_casting_tables(void)
     _npy_can_cast_safely_table[_FROM_NUM][_TO_NUM] = 1;
 #  endif
 
+#elif @from_isposit@
+
+#  if @to_isfloat@ && (_TO_BSIZE > _FROM_BSIZE)
+    _npy_can_cast_safely_table[_FROM_NUM][_TO_NUM] = 0;
+#  elif @to_isposit@ && (_TO_BSIZE >= _FROM_BSIZE)
+    _npy_can_cast_safely_table[_FROM_NUM][_TO_NUM] = 1;
+#  elif @to_iscomplex@ && (_TO_BSIZE > _FROM_BSIZE)
+    _npy_can_cast_safely_table[_FROM_NUM][_TO_NUM] = 0;
+#  endif
+
 #endif
 
 #undef _TO_NUM
