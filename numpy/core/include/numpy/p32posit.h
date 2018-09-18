@@ -60,6 +60,8 @@ npy_uint32 npy_doublebits_to_posit32bits(npy_uint64 d);
 npy_uint16 npy_posit32bits_to_halfbits(npy_uint32 p);
 npy_uint32 npy_posit32bits_to_floatbits(npy_uint32 p);
 npy_uint64 npy_posit32bits_to_doublebits(npy_uint32 p);
+npy_uint8 npy_posit32bits_to_posit8bits(npy_uint32 p);
+npy_uint16 npy_posit32bits_to_posit16bits(npy_uint32 p);
 
 #ifdef __cplusplus
 }
