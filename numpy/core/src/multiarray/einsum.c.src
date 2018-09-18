@@ -17,6 +17,8 @@
 #include <numpy/npy_common.h>
 #include <numpy/arrayobject.h>
 #include <numpy/halffloat.h>
+#include <numpy/p8posit.h>
+#include <numpy/p16posit.h>
 #include <numpy/p32posit.h>
 #include <npy_pycompat.h>
 
@@ -70,35 +72,40 @@
 /**begin repeat
  * #name = byte, short, int, long, longlong,
  *         ubyte, ushort, uint, ulong, ulonglong,
- *         half, posit32, float, double, longdouble,
+ *         half, posit8, posit16, posit32,
+ *         float, double, longdouble,
  *         cfloat, cdouble, clongdouble#
  * #type = npy_byte, npy_short, npy_int, npy_long, npy_longlong,
  *         npy_ubyte, npy_ushort, npy_uint, npy_ulong, npy_ulonglong,
- *         npy_half, npy_posit32, npy_float, npy_double, npy_longdouble,
+ *         npy_half, npy_posit8, npy_posit16, npy_posit32,
+ *         npy_float, npy_double, npy_longdouble,
  *         npy_cfloat, npy_cdouble, npy_clongdouble#
  * #temptype = npy_byte, npy_short, npy_int, npy_long, npy_longlong,
  *             npy_ubyte, npy_ushort, npy_uint, npy_ulong, npy_ulonglong,
- *             npy_float, npy_double, npy_float, npy_double, npy_longdouble,
+ *             npy_float, npy_float, npy_float, npy_double,
+ *             npy_float, npy_double, npy_longdouble,
  *             npy_float, npy_double, npy_longdouble#
  * #to = ,,,,,
  *       ,,,,,
- *       npy_float_to_half,npy_double_to_posit32,,,,
+ *       npy_float_to_half,npy_float_to_posit8,npy_float_to_posit16,
+ *       npy_double_to_posit32,,,,
  *       ,,#
  * #from = ,,,,,
  *         ,,,,,
- *         npy_half_to_float,npy_posit32_to_double,,,,
+ *         npy_half_to_float,npy_posit8_to_float,npy_posit16_to_float,
+ *         npy_posit32_to_double,,,,
  *         ,,#
  * #complex = 0*5,
  *            0*5,
- *            0*5,
+ *            0*7,
  *            1*3#
  * #float32 = 0*5,
  *            0*5,
- *            0,0,1,0,0,
+ *            0,0,0,0,1,0,0,
  *            0*3#
  * #float64 = 0*5,
  *            0*5,
- *            0,0,0,1,0,
+ *            0,0,0,0,0,1,0,
  *            0*3#
  */
 
@@ -1554,7 +1561,7 @@ _contig_outstride0_unary_specialization_table[NPY_NTYPES] = {
  *         float, double, longdouble,
  *         cfloat, cdouble, clongdouble,
  *         object, string, unicode, void,
- *         datetime, timedelta, half, posit32#
+ *         datetime, timedelta, half, posit8, posit16, posit32#
  * #use = 0,
  *        1, 1,
  *        1, 1,
@@ -1564,7 +1571,7 @@ _contig_outstride0_unary_specialization_table[NPY_NTYPES] = {
  *        1, 1, 1,
  *        1, 1, 1,
  *        0, 0, 0, 0,
- *        0, 0, 1, 1#
+ *        0, 0, 1, 1, 1, 1#
  */
 #if @use@
     &@name@_sum_of_products_contig_outstride0_one,
@@ -1585,7 +1592,7 @@ static sum_of_products_fn _binary_specialization_table[NPY_NTYPES][5] = {
  *         float, double, longdouble,
  *         cfloat, cdouble, clongdouble,
  *         object, string, unicode, void,
- *         datetime, timedelta, half, posit32#
+ *         datetime, timedelta, half, posit8, posit16, posit32#
  * #use = 0,
  *        1, 1,
  *        1, 1,
@@ -1595,7 +1602,7 @@ static sum_of_products_fn _binary_specialization_table[NPY_NTYPES][5] = {
  *        1, 1, 1,
  *        0, 0, 0,
  *        0, 0, 0, 0,
- *        0, 0, 1, 1#
+ *        0, 0, 1, 1, 1, 1#
  */
 #if @use@
 {
@@ -1622,7 +1629,7 @@ static sum_of_products_fn _outstride0_specialized_table[NPY_NTYPES][4] = {
  *         float, double, longdouble,
  *         cfloat, cdouble, clongdouble,
  *         object, string, unicode, void,
- *         datetime, timedelta, half, posit32#
+ *         datetime, timedelta, half, posit8, posit16, posit32#
  * #use = 1,
  *        1, 1,
  *        1, 1,
@@ -1632,7 +1639,7 @@ static sum_of_products_fn _outstride0_specialized_table[NPY_NTYPES][4] = {
  *        1, 1, 1,
  *        1, 1, 1,
  *        0, 0, 0, 0,
- *        0, 0, 1, 1#
+ *        0, 0, 1, 1, 1, 1#
  */
 #if @use@
 {
@@ -1658,7 +1665,7 @@ static sum_of_products_fn _allcontig_specialized_table[NPY_NTYPES][4] = {
  *         float, double, longdouble,
  *         cfloat, cdouble, clongdouble,
  *         object, string, unicode, void,
- *         datetime, timedelta, half, posit32#
+ *         datetime, timedelta, half, posit8, posit16, posit32#
  * #use = 1,
  *        1, 1,
  *        1, 1,
@@ -1668,7 +1675,7 @@ static sum_of_products_fn _allcontig_specialized_table[NPY_NTYPES][4] = {
  *        1, 1, 1,
  *        1, 1, 1,
  *        0, 0, 0, 0,
- *        0, 0, 1, 1#
+ *        0, 0, 1, 1, 1, 1#
  */
 #if @use@
 {
@@ -1694,7 +1701,7 @@ static sum_of_products_fn _unspecialized_table[NPY_NTYPES][4] = {
  *         float, double, longdouble,
  *         cfloat, cdouble, clongdouble,
  *         object, string, unicode, void,
- *         datetime, timedelta, half, posit32#
+ *         datetime, timedelta, half, posit8, posit16, posit32#
  * #use = 1,
  *        1, 1,
  *        1, 1,
@@ -1704,7 +1711,7 @@ static sum_of_products_fn _unspecialized_table[NPY_NTYPES][4] = {
  *        1, 1, 1,
  *        1, 1, 1,
  *        0, 0, 0, 0,
- *        0, 0, 1, 1#
+ *        0, 0, 1, 1, 1, 1#
  */
 #if @use@
 {

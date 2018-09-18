@@ -121,6 +121,8 @@ make_dragon4_typedecl(Half, npy_half)
 make_dragon4_typedecl(Float, npy_float)
 make_dragon4_typedecl(Double, npy_double)
 make_dragon4_typedecl(LongDouble, npy_longdouble)
+make_dragon4_typedecl(Posit8, npy_posit8)
+make_dragon4_typedecl(Posit16, npy_posit16)
 make_dragon4_typedecl(Posit32, npy_posit32)
 
 #undef make_dragon4_typedecl

@@ -398,6 +398,8 @@ _buffer_format_string(PyArray_Descr *descr, _tmp_string_t *str,
         case NPY_LONGLONG:     if (_append_char(str, 'q')) return -1; break;
         case NPY_ULONGLONG:    if (_append_char(str, 'Q')) return -1; break;
         case NPY_HALF:         if (_append_char(str, 'e')) return -1; break;
+        case NPY_POSIT8:       if (_append_char(str, 'r')) return -1; break;
+        case NPY_POSIT16:      if (_append_char(str, 'k')) return -1; break;
         case NPY_POSIT32:      if (_append_char(str, 'K')) return -1; break;
         case NPY_FLOAT:        if (_append_char(str, 'f')) return -1; break;
         case NPY_DOUBLE:       if (_append_char(str, 'd')) return -1; break;
@@ -1099,6 +1101,8 @@ _pep3118_letter_to_type(char letter, int native, int complex)
     case 'q': return native ? NPY_LONGLONG : NPY_INT64;
     case 'Q': return native ? NPY_ULONGLONG : NPY_UINT64;
     case 'e': return NPY_HALF;
+    case 'r': return NPY_POSIT8;
+    case 'k': return NPY_POSIT16;
     case 'K': return NPY_POSIT32;
     case 'f': return complex ? NPY_CFLOAT : NPY_FLOAT;
     case 'd': return complex ? NPY_CDOUBLE : NPY_DOUBLE;

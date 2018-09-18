@@ -17,6 +17,8 @@
 #include <numpy/arrayobject.h>
 #include <numpy/npy_cpu.h>
 #include <numpy/halffloat.h>
+#include <numpy/p8posit.h>
+#include <numpy/p16posit.h>
 #include <numpy/p32posit.h>
 
 #include "lowlevel_strided_loops.h"
@@ -677,29 +679,33 @@ NPY_NO_EXPORT PyArray_StridedUnaryOp *
  * #NAME1 = BOOL,
  *          UBYTE, USHORT, UINT, ULONG, ULONGLONG,
  *          BYTE, SHORT, INT, LONG, LONGLONG,
- *          HALF, POSIT32, FLOAT, DOUBLE, LONGDOUBLE,
+ *          HALF, POSIT8, POSIT16, POSIT32, FLOAT, DOUBLE, LONGDOUBLE,
  *          CFLOAT, CDOUBLE, CLONGDOUBLE#
  * #name1 = bool,
  *          ubyte, ushort, uint, ulong, ulonglong,
  *          byte, short, int, long, longlong,
- *          half, posit32, float, double, longdouble,
+ *          half, posit8, posit16, posit32, float, double, longdouble,
  *          cfloat, cdouble, clongdouble#
  * #type1 = npy_bool,
  *          npy_ubyte, npy_ushort, npy_uint, npy_ulong, npy_ulonglong,
  *          npy_byte, npy_short, npy_int, npy_long, npy_longlong,
- *          npy_half, npy_posit32, npy_float, npy_double, npy_longdouble,
+ *          npy_half, npy_posit8, npy_posit16, npy_posit32,
+ *          npy_float, npy_double, npy_longdouble,
  *          npy_cfloat, npy_cdouble, npy_clongdouble#
  * #rtype1 = npy_bool,
  *           npy_ubyte, npy_ushort, npy_uint, npy_ulong, npy_ulonglong,
  *           npy_byte, npy_short, npy_int, npy_long, npy_longlong,
- *           npy_half, npy_posit32, npy_float, npy_double, npy_longdouble,
+ *           npy_half, npy_posit8, npy_posit16, npy_posit32,
+ *           npy_float, npy_double, npy_longdouble,
  *           npy_float, npy_double, npy_longdouble#
- * #is_bool1 = 1, 0*18#
- * #is_half1 = 0*11, 1, 0, 0*6#
- * #is_posit32_1 = 0*12, 1, 0*6#
- * #is_float1 = 0*12, 0, 1, 0, 0, 1, 0, 0#
- * #is_double1 = 0*13, 0, 1, 0, 0, 1, 0#
- * #is_complex1 = 0*15, 0, 1*3#
+ * #is_bool1 = 1, 0*20#
+ * #is_half1 = 0*11, 1, 0, 0, 0, 0*6#
+ * #is_posit8_1 = 0*12, 1, 0, 0, 0*6#
+ * #is_posit16_1 = 0*12, 0, 1, 0, 0*6#
+ * #is_posit32_1 = 0*12, 0, 0, 1, 0*6#
+ * #is_float1 = 0*12, 0, 0, 0, 1, 0, 0, 1, 0, 0#
+ * #is_double1 = 0*13, 0, 0, 0, 1, 0, 0, 1, 0#
+ * #is_complex1 = 0*15, 0, 0, 0, 1*3#
  */
 
 /**begin repeat1
@@ -707,29 +713,33 @@ NPY_NO_EXPORT PyArray_StridedUnaryOp *
  * #NAME2 = BOOL,
  *          UBYTE, USHORT, UINT, ULONG, ULONGLONG,
  *          BYTE, SHORT, INT, LONG, LONGLONG,
- *          HALF, POSIT32, FLOAT, DOUBLE, LONGDOUBLE,
+ *          HALF, POSIT8, POSIT16, POSIT32, FLOAT, DOUBLE, LONGDOUBLE,
  *          CFLOAT, CDOUBLE, CLONGDOUBLE#
  * #name2 = bool,
  *          ubyte, ushort, uint, ulong, ulonglong,
  *          byte, short, int, long, longlong,
- *          half, posit32, float, double, longdouble,
+ *          half, posit8, posit16, posit32, float, double, longdouble,
  *          cfloat, cdouble, clongdouble#
  * #type2 = npy_bool,
  *          npy_ubyte, npy_ushort, npy_uint, npy_ulong, npy_ulonglong,
  *          npy_byte, npy_short, npy_int, npy_long, npy_longlong,
- *          npy_half, npy_posit32, npy_float, npy_double, npy_longdouble,
+ *          npy_half, npy_posit8, npy_posit16, npy_posit32,
+ *          npy_float, npy_double, npy_longdouble,
  *          npy_cfloat, npy_cdouble, npy_clongdouble#
  * #rtype2 = npy_bool,
  *          npy_ubyte, npy_ushort, npy_uint, npy_ulong, npy_ulonglong,
  *          npy_byte, npy_short, npy_int, npy_long, npy_longlong,
- *          npy_half, npy_posit32, npy_float, npy_double, npy_longdouble,
+ *          npy_half, npy_posit8, npy_posit16, npy_posit32,
+ *          npy_float, npy_double, npy_longdouble,
  *          npy_float, npy_double, npy_longdouble#
- * #is_bool2 = 1, 0*18#
- * #is_half2 = 0*11, 1, 0, 0*6#
- * #is_posit32_2 = 0*12, 1, 0*6#
- * #is_float2 = 0*12, 0, 1, 0, 0, 1, 0, 0#
- * #is_double2 = 0*13, 0, 1, 0, 0, 1, 0#
- * #is_complex2 = 0*15, 0, 1*3#
+ * #is_bool2 = 1, 0*20#
+ * #is_half2 = 0*11, 1, 0, 0, 0, 0*6#
+ * #is_posit8_2 = 0*12, 1, 0, 0, 0*6#
+ * #is_posit16_2 = 0*12, 0, 1, 0, 0*6#
+ * #is_posit32_2 = 0*12, 0, 0, 1, 0*6#
+ * #is_float2 = 0*12, 0, 0, 0, 1, 0, 0, 1, 0, 0#
+ * #is_double2 = 0*13, 0, 0, 0, 1, 0, 0, 1, 0#
+ * #is_complex2 = 0*15, 0, 0, 0, 1*3#
  */
 
 /**begin repeat2
@@ -741,7 +751,8 @@ NPY_NO_EXPORT PyArray_StridedUnaryOp *
 #if !(NPY_USE_UNALIGNED_ACCESS && !@aligned@)
 
 /* For half types, don't use actual double/float types in conversion */
-#if @is_half1@ || @is_half2@ || @is_posit32_1@ || @is_posit32_2@
+#if @is_half1@ || @is_half2@ || @is_posit8_1@ || @is_posit8_2@ || \
+    @is_posit16_1@ || @is_posit16_2@ || @is_posit32_1@ || @is_posit32_2@
 
 #  if @is_float1@
 #    define _TYPE1 npy_uint32
@@ -775,12 +786,56 @@ NPY_NO_EXPORT PyArray_StridedUnaryOp *
 #    define _CONVERT_FN(x) npy_halfbits_to_doublebits(x)
 #  elif @is_half2@
 #    define _CONVERT_FN(x) (x)
+#  elif @is_posit8_2@
+#    define _CONVERT_FN(x) npy_halfbits_to_posit8bits(x)
+#  elif @is_posit16_2@
+#    define _CONVERT_FN(x) npy_halfbits_to_posit16bits(x)
 #  elif @is_posit32_2@
 #    define _CONVERT_FN(x) npy_halfbits_to_posit32bits(x)
 #  elif @is_bool2@
 #    define _CONVERT_FN(x) ((npy_bool)!npy_half_iszero(x))
 #  else
 #    define _CONVERT_FN(x) ((_TYPE2)npy_half_to_float(x))
+#  endif
+
+#elif @is_posit8_1@
+
+#  if @is_float2@
+#    define _CONVERT_FN(x) npy_posit8bits_to_floatbits(x)
+#  elif @is_double2@
+#    define _CONVERT_FN(x) npy_posit8bits_to_doublebits(x)
+#  elif @is_half2@
+#    define _CONVERT_FN(x) npy_posit8bits_to_halfbits(x)
+#  elif @is_posit8_2@
+#    define _CONVERT_FN(x) (x)
+#  elif @is_posit16_2@
+#    define _CONVERT_FN(x) npy_posit8bits_to_posit16bits(x)
+#  elif @is_posit32_2@
+#    define _CONVERT_FN(x) npy_posit8bits_to_posit32bits(x)
+#  elif @is_bool2@
+#    define _CONVERT_FN(x) ((npy_bool)!npy_posit8_iszero(x))
+#  else
+#    define _CONVERT_FN(x) ((_TYPE2)npy_posit8_to_double(x))
+#  endif
+
+#elif @is_posit16_1@
+
+#  if @is_float2@
+#    define _CONVERT_FN(x) npy_posit16bits_to_floatbits(x)
+#  elif @is_double2@
+#    define _CONVERT_FN(x) npy_posit16bits_to_doublebits(x)
+#  elif @is_half2@
+#    define _CONVERT_FN(x) npy_posit16bits_to_halfbits(x)
+#  elif @is_posit8_2@
+#    define _CONVERT_FN(x) npy_posit16bits_to_posit8bits(x)
+#  elif @is_posit16_2@
+#    define _CONVERT_FN(x) (x)
+#  elif @is_posit32_2@
+#    define _CONVERT_FN(x) npy_posit16bits_to_posit32bits(x)
+#  elif @is_bool2@
+#    define _CONVERT_FN(x) ((npy_bool)!npy_posit16_iszero(x))
+#  else
+#    define _CONVERT_FN(x) ((_TYPE2)npy_posit16_to_double(x))
 #  endif
 
 #elif @is_posit32_1@
@@ -791,6 +846,10 @@ NPY_NO_EXPORT PyArray_StridedUnaryOp *
 #    define _CONVERT_FN(x) npy_posit32bits_to_doublebits(x)
 #  elif @is_half2@
 #    define _CONVERT_FN(x) npy_posit32bits_to_halfbits(x)
+#  elif @is_posit8_2@
+#    define _CONVERT_FN(x) npy_posit32bits_to_posit8bits(x)
+#  elif @is_posit16_2@
+#    define _CONVERT_FN(x) npy_posit32bits_to_posit16bits(x)
 #  elif @is_posit32_2@
 #    define _CONVERT_FN(x) (x)
 #  elif @is_bool2@
@@ -807,6 +866,26 @@ NPY_NO_EXPORT PyArray_StridedUnaryOp *
 #    define _CONVERT_FN(x) npy_doublebits_to_halfbits(x)
 #  else
 #    define _CONVERT_FN(x) npy_float_to_half((float)x)
+#  endif
+
+#elif @is_posit8_2@
+
+#  if @is_float1@
+#    define _CONVERT_FN(x) npy_floatbits_to_posit8bits(x)
+#  elif @is_double1@
+#    define _CONVERT_FN(x) npy_doublebits_to_posit8bits(x)
+#  else
+#    define _CONVERT_FN(x) npy_double_to_posit8((double)x)
+#  endif
+
+#elif @is_posit16_2@
+
+#  if @is_float1@
+#    define _CONVERT_FN(x) npy_floatbits_to_posit16bits(x)
+#  elif @is_double1@
+#    define _CONVERT_FN(x) npy_doublebits_to_posit16bits(x)
+#  else
+#    define _CONVERT_FN(x) npy_double_to_posit16((double)x)
 #  endif
 
 #elif @is_posit32_2@
@@ -944,17 +1023,18 @@ PyArray_GetStridedNumericCastFn(int aligned, npy_intp src_stride,
  * #NAME1 = BOOL,
  *          UBYTE, USHORT, UINT, ULONG, ULONGLONG,
  *          BYTE, SHORT, INT, LONG, LONGLONG,
- *          HALF, POSIT32, FLOAT, DOUBLE, LONGDOUBLE,
+ *          HALF, POSIT8, POSIT16, POSIT32, FLOAT, DOUBLE, LONGDOUBLE,
  *          CFLOAT, CDOUBLE, CLONGDOUBLE#
  * #name1 = bool,
  *          ubyte, ushort, uint, ulong, ulonglong,
  *          byte, short, int, long, longlong,
- *          half, posit32, float, double, longdouble,
+ *          half, posit8, posit16, posit32, float, double, longdouble,
  *          cfloat, cdouble, clongdouble#
  * #type1 = npy_bool,
  *          npy_ubyte, npy_ushort, npy_uint, npy_ulong, npy_ulonglong,
  *          npy_byte, npy_short, npy_int, npy_long, npy_longlong,
- *          npy_half, npy_posit32, npy_float, npy_double, npy_longdouble,
+ *          npy_half, npy_posit8, npy_posit16, npy_posit32,
+ *          npy_float, npy_double, npy_longdouble,
  *          npy_cfloat, npy_cdouble, npy_clongdouble#
  */
 
@@ -966,17 +1046,18 @@ PyArray_GetStridedNumericCastFn(int aligned, npy_intp src_stride,
  * #NAME2 = BOOL,
  *          UBYTE, USHORT, UINT, ULONG, ULONGLONG,
  *          BYTE, SHORT, INT, LONG, LONGLONG,
- *          HALF, POSIT32, FLOAT, DOUBLE, LONGDOUBLE,
+ *          HALF, POSIT8, POSIT16, POSIT32, FLOAT, DOUBLE, LONGDOUBLE,
  *          CFLOAT, CDOUBLE, CLONGDOUBLE#
  * #name2 = bool,
  *          ubyte, ushort, uint, ulong, ulonglong,
  *          byte, short, int, long, longlong,
- *          half, posit32, float, double, longdouble,
+ *          half, posit8, posit16, posit32, float, double, longdouble,
  *          cfloat, cdouble, clongdouble#
  * #type2 = npy_bool,
  *          npy_ubyte, npy_ushort, npy_uint, npy_ulong, npy_ulonglong,
  *          npy_byte, npy_short, npy_int, npy_long, npy_longlong,
- *          npy_half, npy_posit32, npy_float, npy_double, npy_longdouble,
+ *          npy_half, npy_posit8, npy_posit16, npy_posit32,
+ *          npy_float, npy_double, npy_longdouble,
  *          npy_cfloat, npy_cdouble, npy_clongdouble#
  */
 

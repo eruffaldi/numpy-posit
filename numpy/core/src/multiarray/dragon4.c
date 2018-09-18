@@ -30,6 +30,8 @@
 
 #include "dragon4.h"
 #include <numpy/npy_common.h>
+#include <numpy/p8posit.h>
+#include <numpy/p16posit.h>
 #include <numpy/p32posit.h>
 #include <math.h>
 #include <stdio.h>
@@ -2261,16 +2263,46 @@ Dragon4_PrintFloat_IEEE_binary16(
 }
 
 /*
+ * posit8 format
+ *
+ * nbits:   8 bits
+ * es:      0 bit
+ */
+static npy_uint8
+Dragon4_PrintFloat_POSIT_binary8(
+        Dragon4_Scratch *scratch, npy_posit8 *value, Dragon4_Options *opt)
+{
+    // FIXME(xman): posit
+    NPY_ERR("NotImplemented: Dragon4_PrintFloat_POSIT_binary8");
+    return 0;
+}
+
+/*
+ * posit16 format
+ *
+ * nbits:   16 bits
+ * es:      1  bit
+ */
+static npy_uint16
+Dragon4_PrintFloat_POSIT_binary16(
+        Dragon4_Scratch *scratch, npy_posit16 *value, Dragon4_Options *opt)
+{
+    // FIXME(xman): posit
+    NPY_ERR("NotImplemented: Dragon4_PrintFloat_POSIT_binary16");
+    return 0;
+}
+
+/*
  * posit32 format
  *
- * nbits:   32 bit
- * es:      2 bits
+ * nbits:   32 bits
+ * es:      2  bits
  */
 static npy_uint32
 Dragon4_PrintFloat_POSIT_binary32(
         Dragon4_Scratch *scratch, npy_posit32 *value, Dragon4_Options *opt)
 {
-    // FIXME
+    // FIXME(xman): posit
     NPY_ERR("NotImplemented: Dragon4_PrintFloat_POSIT_binary32");
     return 0;
 }
@@ -3175,14 +3207,72 @@ make_dragon4_typefuncs(Float, npy_float, NPY_FLOAT_BINFMT_NAME)
 make_dragon4_typefuncs(Double, npy_double, NPY_DOUBLE_BINFMT_NAME)
 make_dragon4_typefuncs(LongDouble, npy_longdouble, NPY_LONGDOUBLE_BINFMT_NAME)
 
+PyObject* Dragon4_Positional_Posit8_opt(npy_posit8 *val, Dragon4_Options *opt)
+{
+    if (*val == NPY_POSIT8_NAR) {
+        return PyUString_FromString("NaR");
+    }
+    // FIXME(xman): posit
+    double x = npy_posit8_to_double(*val);
+    return Dragon4_Positional_Double_opt(&x, opt);
+}
+
+PyObject* Dragon4_Positional_Posit16_opt(npy_posit16 *val, Dragon4_Options *opt)
+{
+    if (*val == NPY_POSIT16_NAR) {
+        return PyUString_FromString("NaR");
+    }
+    // FIXME(xman): posit
+    double x = npy_posit16_to_double(*val);
+    return Dragon4_Positional_Double_opt(&x, opt);
+}
+
 PyObject* Dragon4_Positional_Posit32_opt(npy_posit32 *val, Dragon4_Options *opt)
 {
     if (*val == NPY_POSIT32_NAR) {
         return PyUString_FromString("NaR");
     }
-    // FIXME
+    // FIXME(xman): posit
     double x = npy_posit32_to_double(*val);
     return Dragon4_Positional_Double_opt(&x, opt);
+}
+
+PyObject* Dragon4_Positional_Posit8(npy_posit8 *val, DigitMode digit_mode,
+    CutoffMode cutoff_mode, int precision,
+    int sign, TrimMode trim, int pad_left, int pad_right)
+{
+    Dragon4_Options opt;
+
+    opt.scientific = 0;
+    opt.digit_mode = digit_mode;
+    opt.cutoff_mode = cutoff_mode;
+    opt.precision = precision;
+    opt.sign = sign;
+    opt.trim_mode = trim;
+    opt.digits_left = pad_left;
+    opt.digits_right = pad_right;
+    opt.exp_digits = -1;
+
+    return Dragon4_Positional_Posit8_opt(val, &opt);
+}
+
+PyObject* Dragon4_Positional_Posit16(npy_posit16 *val, DigitMode digit_mode,
+    CutoffMode cutoff_mode, int precision,
+    int sign, TrimMode trim, int pad_left, int pad_right)
+{
+    Dragon4_Options opt;
+
+    opt.scientific = 0;
+    opt.digit_mode = digit_mode;
+    opt.cutoff_mode = cutoff_mode;
+    opt.precision = precision;
+    opt.sign = sign;
+    opt.trim_mode = trim;
+    opt.digits_left = pad_left;
+    opt.digits_right = pad_right;
+    opt.exp_digits = -1;
+
+    return Dragon4_Positional_Posit16_opt(val, &opt);
 }
 
 PyObject* Dragon4_Positional_Posit32(npy_posit32 *val, DigitMode digit_mode,
@@ -3204,14 +3294,70 @@ PyObject* Dragon4_Positional_Posit32(npy_posit32 *val, DigitMode digit_mode,
     return Dragon4_Positional_Posit32_opt(val, &opt);
 }
 
+PyObject* Dragon4_Scientific_Posit8_opt(npy_posit8 *val, Dragon4_Options *opt)
+{
+    if (*val == NPY_POSIT8_NAR) {
+        return PyUString_FromString("NaR");
+    }
+    // FIXME(xman): posit
+    double x = npy_posit8_to_double(*val);
+    return Dragon4_Scientific_Double_opt(&x, opt);
+}
+
+PyObject* Dragon4_Scientific_Posit16_opt(npy_posit16 *val, Dragon4_Options *opt)
+{
+    if (*val == NPY_POSIT16_NAR) {
+        return PyUString_FromString("NaR");
+    }
+    // FIXME(xman): posit
+    double x = npy_posit16_to_double(*val);
+    return Dragon4_Scientific_Double_opt(&x, opt);
+}
+
 PyObject* Dragon4_Scientific_Posit32_opt(npy_posit32 *val, Dragon4_Options *opt)
 {
     if (*val == NPY_POSIT32_NAR) {
         return PyUString_FromString("NaR");
     }
-    // FIXME
+    // FIXME(xman): posit
     double x = npy_posit32_to_double(*val);
     return Dragon4_Scientific_Double_opt(&x, opt);
+}
+
+PyObject* Dragon4_Scientific_Posit8(npy_posit8 *val, DigitMode digit_mode, int precision,
+    int sign, TrimMode trim, int pad_left, int exp_digits)
+{
+    Dragon4_Options opt;
+
+    opt.scientific = 1;
+    opt.digit_mode = digit_mode;
+    opt.cutoff_mode = CutoffMode_TotalLength;
+    opt.precision = precision;
+    opt.sign = sign;
+    opt.trim_mode = trim;
+    opt.digits_left = pad_left;
+    opt.digits_right = -1;
+    opt.exp_digits = exp_digits;
+
+    return Dragon4_Scientific_Posit8_opt(val, &opt);
+}
+
+PyObject* Dragon4_Scientific_Posit16(npy_posit16 *val, DigitMode digit_mode, int precision,
+    int sign, TrimMode trim, int pad_left, int exp_digits)
+{
+    Dragon4_Options opt;
+
+    opt.scientific = 1;
+    opt.digit_mode = digit_mode;
+    opt.cutoff_mode = CutoffMode_TotalLength;
+    opt.precision = precision;
+    opt.sign = sign;
+    opt.trim_mode = trim;
+    opt.digits_left = pad_left;
+    opt.digits_right = -1;
+    opt.exp_digits = exp_digits;
+
+    return Dragon4_Scientific_Posit16_opt(val, &opt);
 }
 
 PyObject* Dragon4_Scientific_Posit32(npy_posit32 *val, DigitMode digit_mode, int precision,
@@ -3261,6 +3407,14 @@ Dragon4_Positional(PyObject *obj, DigitMode digit_mode, CutoffMode cutoff_mode,
         npy_posit32 x = ((PyPosit32ScalarObject *)obj)->obval;
         return Dragon4_Positional_Posit32_opt(&x, &opt);
     }
+    else if (PyArray_IsScalar(obj, Posit16)) {
+        npy_posit16 x = ((PyPosit16ScalarObject *)obj)->obval;
+        return Dragon4_Positional_Posit16_opt(&x, &opt);
+    }
+    else if (PyArray_IsScalar(obj, Posit8)) {
+        npy_posit8 x = ((PyPosit8ScalarObject *)obj)->obval;
+        return Dragon4_Positional_Posit8_opt(&x, &opt);
+    }
     else if (PyArray_IsScalar(obj, Float)) {
         npy_float x = ((PyFloatScalarObject *)obj)->obval;
         return Dragon4_Positional_Float_opt(&x, &opt);
@@ -3305,6 +3459,14 @@ Dragon4_Scientific(PyObject *obj, DigitMode digit_mode, int precision,
     else if (PyArray_IsScalar(obj, Posit32)) {
         npy_posit32 x = ((PyPosit32ScalarObject *)obj)->obval;
         return Dragon4_Scientific_Posit32_opt(&x, &opt);
+    }
+    else if (PyArray_IsScalar(obj, Posit16)) {
+        npy_posit16 x = ((PyPosit16ScalarObject *)obj)->obval;
+        return Dragon4_Scientific_Posit16_opt(&x, &opt);
+    }
+    else if (PyArray_IsScalar(obj, Posit8)) {
+        npy_posit8 x = ((PyPosit8ScalarObject *)obj)->obval;
+        return Dragon4_Scientific_Posit8_opt(&x, &opt);
     }
     else if (PyArray_IsScalar(obj, Float)) {
         npy_float x = ((PyFloatScalarObject *)obj)->obval;
