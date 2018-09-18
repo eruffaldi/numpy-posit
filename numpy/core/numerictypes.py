@@ -276,8 +276,7 @@ def bitname(obj):
 
     if name == 'posit32':
         char = 'K'
-        # FIXME
-        base = 'float'
+        base = 'posit'
 
     bytes = bits // 8
 
@@ -444,7 +443,7 @@ def _add_array_type(typename, bits):
 
 def _set_array_types():
     ibytes = [1, 2, 4, 8, 16, 32, 64]
-    fbytes = [2, 4, 4, 8, 10, 12, 16, 32, 64]
+    fbytes = [2, 4, 8, 10, 12, 16, 32, 64]
     for bytes in ibytes:
         bits = 8*bytes
         _add_array_type('int', bits)
