@@ -74,7 +74,9 @@ multiarray_types_api = {
     'PyHalfArrType_Type':               (217,),
     'NpyIter_Type':                     (218,),
     # End 1.6 API
-    'PyPosit32ArrType_Type':            (304,),
+    'PyPosit8ArrType_Type':             (304,),
+    'PyPosit16ArrType_Type':            (305,),
+    'PyPosit32ArrType_Type':            (306,),
 }
 
 #define NPY_NUMUSERTYPES (*(int *)PyArray_API[6])
@@ -405,12 +407,24 @@ ufunc_funcs_api = {
     # End 1.8 API
 
     # Posit
-    'PyUFunc_K_K':                              (42,),
-    'PyUFunc_K_K_As_f_f':                       (43,),
-    'PyUFunc_K_K_As_d_d':                       (44,),
-    'PyUFunc_KK_K':                             (45,),
-    'PyUFunc_KK_K_As_ff_f':                     (46,),
-    'PyUFunc_KK_K_As_dd_d':                     (47,),
+    'PyUFunc_r_r':                              (42,),
+    'PyUFunc_r_r_As_f_f':                       (43,),
+    'PyUFunc_r_r_As_d_d':                       (44,),
+    'PyUFunc_rr_r':                             (45,),
+    'PyUFunc_rr_r_As_ff_f':                     (46,),
+    'PyUFunc_rr_r_As_dd_d':                     (47,),
+    'PyUFunc_k_k':                              (48,),
+    'PyUFunc_k_k_As_f_f':                       (49,),
+    'PyUFunc_k_k_As_d_d':                       (50,),
+    'PyUFunc_kk_k':                             (51,),
+    'PyUFunc_kk_k_As_ff_f':                     (52,),
+    'PyUFunc_kk_k_As_dd_d':                     (53,),
+    'PyUFunc_K_K':                              (54,),
+    'PyUFunc_K_K_As_f_f':                       (55,),
+    'PyUFunc_K_K_As_d_d':                       (56,),
+    'PyUFunc_KK_K':                             (57,),
+    'PyUFunc_KK_K_As_ff_f':                     (58,),
+    'PyUFunc_KK_K_As_dd_d':                     (59,),
 }
 
 # List of all the dicts which define the C API

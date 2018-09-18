@@ -71,7 +71,8 @@ class TypeDescription(object):
         assert len(self.out) == nout
         self.astype = self.astype_dict.get(self.type, None)
 
-_fdata_map = dict(e='npy_%sf', K='npy_%s_p32', f='npy_%sf', d='npy_%s', g='npy_%sl',
+_fdata_map = dict(e='npy_%sf', r='npy_%s_p8', k='npy_%s_p16', K='npy_%s_p32',
+                  f='npy_%sf', d='npy_%s', g='npy_%sl',
                   F='nc_%sf', D='nc_%s', G='nc_%sl')
 def build_func_data(types, f):
     func_data = []
@@ -110,7 +111,8 @@ def TD(types, f=None, astype=None, in_=None, out=None, simd=None):
         else:
             simdt = []
 
-        if t == 'K' and f is not None and f != 'sqrt' and f != 'pow' and f != 'log10':
+        if (t == 'r' or t == 'k' or t == 'K') and \
+            f is not None and f != 'sqrt' and f != 'pow' and f != 'log10':
             pass
         else:
             tds.append(TypeDescription(t, f=fd, in_=i, out=o, astype=astype, simd=simdt))
@@ -207,6 +209,8 @@ chartoname = {'?': 'bool',
               'f': 'float',
               'd': 'double',
               'g': 'longdouble',
+              'r': 'posit8',
+              'k': 'posit16',
               'K': 'posit32',
               'F': 'cfloat',
               'D': 'cdouble',
@@ -219,7 +223,7 @@ chartoname = {'?': 'bool',
               'P': 'OBJECT',
               }
 
-all = '?bBhHiIlLqQefdgKFDGOMm'
+all = '?bBhHiIlLqQefdgrkKFDGOMm'
 O = 'O'
 P = 'P'
 ints = 'bBhHiIlLqQ'
@@ -228,7 +232,7 @@ timedeltaonly = 'm'
 intsO = ints + O
 bints = '?' + ints
 bintsO = bints + O
-flts = 'efdgK'
+flts = 'efdgrkK'
 fltsO = flts + O
 fltsP = flts + P
 cmplx = 'FDG'
@@ -741,7 +745,7 @@ defdict = {
           None,
           TD('e', f='sqrt', astype={'e':'f'}),
           TD(inexactvec),
-          TD('K'),
+          TD('rkK'),
           TD(inexact, f='sqrt', astype={'e':'f'}),
           TD(P, f='sqrt'),
           ),
@@ -921,6 +925,8 @@ def indent(st, spaces):
     return indented
 
 chartotype1 = {'e': 'e_e',
+               'r': 'r_r',
+               'k': 'k_k',
                'K': 'K_K',
                'f': 'f_f',
                'd': 'd_d',
@@ -932,6 +938,8 @@ chartotype1 = {'e': 'e_e',
                'P': 'O_O_method'}
 
 chartotype2 = {'e': 'ee_e',
+               'r': 'rr_r',
+               'k': 'kk_k',
                'K': 'KK_K',
                'f': 'ff_f',
                'd': 'dd_d',
