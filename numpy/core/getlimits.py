@@ -57,6 +57,14 @@ _MACHAR_PARAMS = {
         itype = ntypes.int16,
         fmt = '%12.5e',
         title = _title_fmt.format('half')),
+    ntypes.posit8: dict(
+        itype = ntypes.int8,
+        fmt = '%12.5e',
+        title = _title_fmt.format('posit8')),
+    ntypes.posit16: dict(
+        itype = ntypes.int16,
+        fmt = '%12.5e',
+        title = _title_fmt.format('posit16')),
     ntypes.posit32: dict(
         itype = ntypes.int32,
         fmt = '%15.7e',
@@ -146,6 +154,38 @@ _float32_ma = MachArLike(_f32,
                          tiny=exp2(_f32(-126)))
 
 # FIXME: posit: to use the right values.
+_p8 = ntypes.posit8
+_posit8_ma = MachArLike(_p8,
+                        machep=-6,
+                        negep=-6,
+                        minexp=-6,
+                        maxexp=6,
+                        it=5,
+                        iexp=2,
+                        ibeta=2,
+                        irnd=5,
+                        ngrd=0,
+                        eps=exp2(_f32(-6)),
+                        epsneg=exp2(_f32(-6)),
+                        huge=_f32(2.0**6.0),
+                        tiny=_f32(2.0**-6.0))
+
+_p16 = ntypes.posit16
+_posit16_ma = MachArLike(_p16,
+                         machep=-28,
+                         negep=-28,
+                         minexp=-28,
+                         maxexp=28,
+                         it=12,
+                         iexp=3,
+                         ibeta=2,
+                         irnd=5,
+                         ngrd=0,
+                         eps=exp2(_f32(-24)),
+                         epsneg=exp2(_f32(-24)),
+                         huge=_f32(2.0**28.0),
+                         tiny=_f32(2.0**-28.0))
+
 _p32 = ntypes.posit32
 _posit32_ma = MachArLike(_p32,
                          machep=-120,
@@ -252,6 +292,8 @@ _float_dd_ma = MachArLike(_ld,
 # See:
 # https://perl5.git.perl.org/perl.git/blob/3118d7d684b56cbeb702af874f4326683c45f045:/Configure
 _KNOWN_TYPES = {
+    b'\xfa': _posit8_ma,
+    b'3\xeb': _posit16_ma,
     b'333\xdb': _posit32_ma,
     b'\x9a\x99\x99\x99\x99\x99\xb9\xbf' : _float64_ma,
     b'\xcd\xcc\xcc\xbd' : _float32_ma,

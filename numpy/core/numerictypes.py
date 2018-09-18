@@ -277,6 +277,12 @@ def bitname(obj):
     if name == 'posit32':
         char = 'K'
         base = 'posit'
+    elif name == 'posit16':
+        char = 'k'
+        base = 'posit'
+    elif name == 'posit8':
+        char = 'r'
+        base = 'posit'
 
     bytes = bits // 8
 
@@ -466,7 +472,7 @@ _set_array_types()
 
 genericTypeRank = ['bool', 'int8', 'uint8', 'int16', 'uint16',
                    'int32', 'uint32', 'int64', 'uint64', 'int128', 'uint128',
-                   'float16', 'float32', 'float64', 'posit32', 'float80', 'float96', 'float128', 'float256',
+                   'posit8', 'float16', 'posit16', 'float32', 'posit32', 'float64', 'float80', 'float96', 'float128', 'float256',
                    'complex32', 'complex64p', 'complex64', 'complex128', 'complex160', 'complex192', 'complex256', 'complex512', 'object']
 
 def maximum_sctype(t):
@@ -886,12 +892,12 @@ del key
 typecodes = {'Character':'c',
              'Integer':'bhilqp',
              'UnsignedInteger':'BHILQP',
-             'Float':'eKfdg',
+             'Float':'erkKfdg',
              'Complex':'FDG',
              'AllInteger':'bBhHiIlLqQpP',
-             'AllFloat':'eKfdgFDG',
+             'AllFloat':'erkKfdgFDG',
              'Datetime': 'Mm',
-             'All':'?bhilqpBHILQPeKfdgFDGSUVOMm'}
+             'All':'?bhilqpBHILQPerkKfdgFDGSUVOMm'}
 
 # backwards compatibility --- deprecated name
 typeDict = sctypeDict
