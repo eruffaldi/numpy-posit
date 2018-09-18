@@ -358,6 +358,8 @@ def _get_formatdict(data, **opt):
             FloatingFormat(data, prec, fmode, supp, sign, legacy=legacy),
         'longfloat': lambda:
             FloatingFormat(data, prec, fmode, supp, sign, legacy=legacy),
+        'posit8': lambda: Posit8Format(data, prec, fmode, supp, sign, legacy=legacy),
+        'posit16': lambda: Posit16Format(data, prec, fmode, supp, sign, legacy=legacy),
         'posit32': lambda: Posit32Format(data, prec, fmode, supp, sign, legacy=legacy),
         'complexfloat': lambda:
             ComplexFloatingFormat(data, prec, fmode, supp, sign, legacy=legacy),
@@ -416,6 +418,10 @@ def _get_format_function(data, **options):
     elif issubclass(dtypeobj, _nt.floating):
         if issubclass(dtypeobj, _nt.posit32):
             return formatdict['posit32']()
+        elif issubclass(dtypeobj, _nt.posit16):
+            return formatdict['posit16']()
+        elif issubclass(dtypeobj, _nt.posit8):
+            return formatdict['posit8']()
         elif issubclass(dtypeobj, _nt.longfloat):
             return formatdict['longfloat']()
         else:
@@ -984,6 +990,74 @@ class Posit32Format(FloatingFormat):
     # The fillFormat() inherited is specific to floating-point format with +inf, -inf, nan.
     # The infstr and nanstr may be set to different lengths.
     # These are not used for posit32.
+    #def fillFormat(self, data):
+
+class Posit16Format(FloatingFormat):
+    def __init__(self, *args, **kwargs):
+        super(Posit16Format, self).__init__(*args, **kwargs)
+
+    def __call__(self, x):
+        if not np.isfinite(x):
+            with errstate(invalid='ignore'):
+                ret = 'NaR'
+                return ' '*(self.pad_left + self.pad_right + 1 - len(ret)) + ret
+
+        if self.exp_format:
+            return dragon4_scientific(x,
+                                      precision=self.precision,
+                                      unique=self.unique,
+                                      trim=self.trim,
+                                      sign=self.sign == '+',
+                                      pad_left=self.pad_left,
+                                      exp_digits=self.exp_size)
+        else:
+            return dragon4_positional(x,
+                                      precision=self.precision,
+                                      unique=self.unique,
+                                      fractional=True,
+                                      trim=self.trim,
+                                      sign=self.sign == '+',
+                                      pad_left=self.pad_left,
+                                      pad_right=self.pad_right)
+
+    # Spaces around NaR may not be padded correctly.
+    # The fillFormat() inherited is specific to floating-point format with +inf, -inf, nan.
+    # The infstr and nanstr may be set to different lengths.
+    # These are not used for posit16.
+    #def fillFormat(self, data):
+
+class Posit8Format(FloatingFormat):
+    def __init__(self, *args, **kwargs):
+        super(Posit8Format, self).__init__(*args, **kwargs)
+
+    def __call__(self, x):
+        if not np.isfinite(x):
+            with errstate(invalid='ignore'):
+                ret = 'NaR'
+                return ' '*(self.pad_left + self.pad_right + 1 - len(ret)) + ret
+
+        if self.exp_format:
+            return dragon4_scientific(x,
+                                      precision=self.precision,
+                                      unique=self.unique,
+                                      trim=self.trim,
+                                      sign=self.sign == '+',
+                                      pad_left=self.pad_left,
+                                      exp_digits=self.exp_size)
+        else:
+            return dragon4_positional(x,
+                                      precision=self.precision,
+                                      unique=self.unique,
+                                      fractional=True,
+                                      trim=self.trim,
+                                      sign=self.sign == '+',
+                                      pad_left=self.pad_left,
+                                      pad_right=self.pad_right)
+
+    # Spaces around NaR may not be padded correctly.
+    # The fillFormat() inherited is specific to floating-point format with +inf, -inf, nan.
+    # The infstr and nanstr may be set to different lengths.
+    # These are not used for posit8.
     #def fillFormat(self, data):
 
 # for back-compatibility, we keep the classes for each float type too
