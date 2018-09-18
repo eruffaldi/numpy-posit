@@ -3417,22 +3417,12 @@ static int
 POSIT8_compare (npy_posit8 *pa, npy_posit8 *pb, PyArrayObject *NPY_UNUSED(ap))
 {
     npy_posit8 a = *pa, b = *pb;
-    npy_bool a_isnan, b_isnan;
     int ret;
 
-    a_isnan = npy_posit8_isnan(a);
-    b_isnan = npy_posit8_isnan(b);
-
-    if (a_isnan) {
-        ret = b_isnan ? 0 : -1;
-    }
-    else if (b_isnan) {
-        ret = 1;
-    }
-    else if(npy_posit8_lt_nonan(a, b)) {
+    if(npy_posit8_lt(a, b)) {
         ret = -1;
     }
-    else if(npy_posit8_lt_nonan(b, a)) {
+    else if(npy_posit8_lt(b, a)) {
         ret = 1;
     }
     else {
@@ -3446,22 +3436,12 @@ static int
 POSIT16_compare (npy_posit16 *pa, npy_posit16 *pb, PyArrayObject *NPY_UNUSED(ap))
 {
     npy_posit16 a = *pa, b = *pb;
-    npy_bool a_isnan, b_isnan;
     int ret;
 
-    a_isnan = npy_posit16_isnan(a);
-    b_isnan = npy_posit16_isnan(b);
-
-    if (a_isnan) {
-        ret = b_isnan ? 0 : -1;
-    }
-    else if (b_isnan) {
-        ret = 1;
-    }
-    else if(npy_posit16_lt_nonan(a, b)) {
+    if(npy_posit16_lt(a, b)) {
         ret = -1;
     }
-    else if(npy_posit16_lt_nonan(b, a)) {
+    else if(npy_posit16_lt(b, a)) {
         ret = 1;
     }
     else {
@@ -3475,22 +3455,12 @@ static int
 POSIT32_compare (npy_posit32 *pa, npy_posit32 *pb, PyArrayObject *NPY_UNUSED(ap))
 {
     npy_posit32 a = *pa, b = *pb;
-    npy_bool a_isnan, b_isnan;
     int ret;
 
-    a_isnan = npy_posit32_isnan(a);
-    b_isnan = npy_posit32_isnan(b);
-
-    if (a_isnan) {
-        ret = b_isnan ? 0 : -1;
-    }
-    else if (b_isnan) {
-        ret = 1;
-    }
-    else if(npy_posit32_lt_nonan(a, b)) {
+    if(npy_posit32_lt(a, b)) {
         ret = -1;
     }
-    else if(npy_posit32_lt_nonan(b, a)) {
+    else if(npy_posit32_lt(b, a)) {
         ret = 1;
     }
     else {
@@ -4564,12 +4534,12 @@ static void
 
 #define _HALF_LESS_THAN(a, b) (!npy_half_isnan(a) && npy_half_lt_nonan(a, b))
 #define _HALF_GREATER_THAN(a, b) (!npy_half_isnan(a) && npy_half_lt_nonan(b, a))
-#define _POSIT8_LESS_THAN(a, b) (!npy_posit8_isnan(a) && npy_posit8_lt_nonan(a, b))
-#define _POSIT16_LESS_THAN(a, b) (!npy_posit16_isnan(a) && npy_posit16_lt_nonan(a, b))
-#define _POSIT32_LESS_THAN(a, b) (!npy_posit32_isnan(a) && npy_posit32_lt_nonan(a, b))
-#define _POSIT8_GREATER_THAN(a, b) (!npy_posit8_isnan(a) && npy_posit8_lt_nonan(b, a))
-#define _POSIT16_GREATER_THAN(a, b) (!npy_posit16_isnan(a) && npy_posit16_lt_nonan(b, a))
-#define _POSIT32_GREATER_THAN(a, b) (!npy_posit32_isnan(a) && npy_posit32_lt_nonan(b, a))
+#define _POSIT8_LESS_THAN(a, b) npy_posit8_lt(a, b)
+#define _POSIT16_LESS_THAN(a, b) npy_posit16_lt(a, b)
+#define _POSIT32_LESS_THAN(a, b) npy_posit32_lt(a, b)
+#define _POSIT8_GREATER_THAN(a, b) npy_posit8_lt(b, a)
+#define _POSIT16_GREATER_THAN(a, b) npy_posit16_lt(b, a)
+#define _POSIT32_GREATER_THAN(a, b) npy_posit32_lt(b, a)
 
 /**begin repeat
  *

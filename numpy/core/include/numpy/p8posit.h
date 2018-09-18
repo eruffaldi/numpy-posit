@@ -25,9 +25,6 @@ int npy_posit8_le(npy_posit8 p1, npy_posit8 p2);
 int npy_posit8_lt(npy_posit8 p1, npy_posit8 p2);
 int npy_posit8_ge(npy_posit8 p1, npy_posit8 p2);
 int npy_posit8_gt(npy_posit8 p1, npy_posit8 p2);
-int npy_posit8_eq_nonan(npy_posit8 p1, npy_posit8 p2);
-int npy_posit8_lt_nonan(npy_posit8 p1, npy_posit8 p2);
-int npy_posit8_le_nonan(npy_posit8 p1, npy_posit8 p2);
 /* Miscellaneous functions */
 int npy_posit8_iszero(npy_posit8 p);
 int npy_posit8_isnan(npy_posit8 p);

@@ -73,11 +73,6 @@ npy_posit8 npy_posit8_nextafter(npy_posit8 x, npy_posit8 y)
     return ret;
 }
 
-int npy_posit8_eq_nonan(npy_posit8 p1, npy_posit8 p2)
-{
-    return p1 == p2;
-}
-
 int npy_posit8_eq(npy_posit8 p1, npy_posit8 p2)
 {
     return p1 == p2;
@@ -88,16 +83,11 @@ int npy_posit8_ne(npy_posit8 p1, npy_posit8 p2)
     return !npy_posit8_eq(p1, p2);
 }
 
-int npy_posit8_lt_nonan(npy_posit8 p1, npy_posit8 p2)
+int npy_posit8_lt(npy_posit8 p1, npy_posit8 p2)
 {
     const int8_t s1 = *((int8_t*)&p1);
     const int8_t s2 = *((int8_t*)&p2);
     return s1 < s2;
-}
-
-int npy_posit8_lt(npy_posit8 p1, npy_posit8 p2)
-{
-    return npy_posit8_lt_nonan(p1, p2);
 }
 
 int npy_posit8_gt(npy_posit8 p1, npy_posit8 p2)
@@ -105,16 +95,11 @@ int npy_posit8_gt(npy_posit8 p1, npy_posit8 p2)
     return npy_posit8_lt(p2, p1);
 }
 
-int npy_posit8_le_nonan(npy_posit8 p1, npy_posit8 p2)
+int npy_posit8_le(npy_posit8 p1, npy_posit8 p2)
 {
     const int8_t s1 = *((int8_t*)&p1);
     const int8_t s2 = *((int8_t*)&p2);
     return s1 <= s2;
-}
-
-int npy_posit8_le(npy_posit8 p1, npy_posit8 p2)
-{
-    return npy_posit8_le_nonan(p1, p2);
 }
 
 int npy_posit8_ge(npy_posit8 p1, npy_posit8 p2)

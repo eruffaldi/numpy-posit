@@ -209,7 +209,7 @@ npy_posit32_isnan(npy_posit32 p)
 
 
 NPY_INLINE static int
-npy_posit8_lt_nonan(npy_posit8 p1, npy_posit8 p2)
+npy_posit8_lt(npy_posit8 p1, npy_posit8 p2)
 {
     const int8_t s1 = *((int8_t*)&p1);
     const int8_t s2 = *((int8_t*)&p2);
@@ -218,7 +218,7 @@ npy_posit8_lt_nonan(npy_posit8 p1, npy_posit8 p2)
 
 
 NPY_INLINE static int
-npy_posit16_lt_nonan(npy_posit16 p1, npy_posit16 p2)
+npy_posit16_lt(npy_posit16 p1, npy_posit16 p2)
 {
     const int16_t s1 = *((int16_t*)&p1);
     const int16_t s2 = *((int16_t*)&p2);
@@ -227,7 +227,7 @@ npy_posit16_lt_nonan(npy_posit16 p1, npy_posit16 p2)
 
 
 NPY_INLINE static int
-npy_posit32_lt_nonan(npy_posit32 p1, npy_posit32 p2)
+npy_posit32_lt(npy_posit32 p1, npy_posit32 p2)
 {
     const int32_t s1 = *((int32_t*)&p1);
     const int32_t s2 = *((int32_t*)&p2);
@@ -238,21 +238,21 @@ npy_posit32_lt_nonan(npy_posit32 p1, npy_posit32 p2)
 NPY_INLINE static int
 POSIT8_LT(npy_posit8 a, npy_posit8 b)
 {
-    return npy_posit8_lt_nonan(a, b);
+    return npy_posit8_lt(a, b);
 }
 
 
 NPY_INLINE static int
 POSIT16_LT(npy_posit16 a, npy_posit16 b)
 {
-    return npy_posit16_lt_nonan(a, b);
+    return npy_posit16_lt(a, b);
 }
 
 
 NPY_INLINE static int
 POSIT32_LT(npy_posit32 a, npy_posit32 b)
 {
-    return npy_posit32_lt_nonan(a, b);
+    return npy_posit32_lt(a, b);
 }
 
 /*

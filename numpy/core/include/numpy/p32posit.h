@@ -25,9 +25,6 @@ int npy_posit32_le(npy_posit32 p1, npy_posit32 p2);
 int npy_posit32_lt(npy_posit32 p1, npy_posit32 p2);
 int npy_posit32_ge(npy_posit32 p1, npy_posit32 p2);
 int npy_posit32_gt(npy_posit32 p1, npy_posit32 p2);
-int npy_posit32_eq_nonan(npy_posit32 p1, npy_posit32 p2);
-int npy_posit32_lt_nonan(npy_posit32 p1, npy_posit32 p2);
-int npy_posit32_le_nonan(npy_posit32 p1, npy_posit32 p2);
 /* Miscellaneous functions */
 int npy_posit32_iszero(npy_posit32 p);
 int npy_posit32_isnan(npy_posit32 p);

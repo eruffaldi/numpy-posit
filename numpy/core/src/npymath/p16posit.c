@@ -73,11 +73,6 @@ npy_posit16 npy_posit16_nextafter(npy_posit16 x, npy_posit16 y)
     return ret;
 }
 
-int npy_posit16_eq_nonan(npy_posit16 p1, npy_posit16 p2)
-{
-    return p1 == p2;
-}
-
 int npy_posit16_eq(npy_posit16 p1, npy_posit16 p2)
 {
     return p1 == p2;
@@ -88,16 +83,11 @@ int npy_posit16_ne(npy_posit16 p1, npy_posit16 p2)
     return !npy_posit16_eq(p1, p2);
 }
 
-int npy_posit16_lt_nonan(npy_posit16 p1, npy_posit16 p2)
+int npy_posit16_lt(npy_posit16 p1, npy_posit16 p2)
 {
     const int16_t s1 = *((int16_t*)&p1);
     const int16_t s2 = *((int16_t*)&p2);
     return s1 < s2;
-}
-
-int npy_posit16_lt(npy_posit16 p1, npy_posit16 p2)
-{
-    return npy_posit16_lt_nonan(p1, p2);
 }
 
 int npy_posit16_gt(npy_posit16 p1, npy_posit16 p2)
@@ -105,16 +95,11 @@ int npy_posit16_gt(npy_posit16 p1, npy_posit16 p2)
     return npy_posit16_lt(p2, p1);
 }
 
-int npy_posit16_le_nonan(npy_posit16 p1, npy_posit16 p2)
+int npy_posit16_le(npy_posit16 p1, npy_posit16 p2)
 {
     const int16_t s1 = *((int16_t*)&p1);
     const int16_t s2 = *((int16_t*)&p2);
     return s1 <= s2;
-}
-
-int npy_posit16_le(npy_posit16 p1, npy_posit16 p2)
-{
-    return npy_posit16_le_nonan(p1, p2);
 }
 
 int npy_posit16_ge(npy_posit16 p1, npy_posit16 p2)

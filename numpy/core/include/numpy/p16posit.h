@@ -25,9 +25,6 @@ int npy_posit16_le(npy_posit16 p1, npy_posit16 p2);
 int npy_posit16_lt(npy_posit16 p1, npy_posit16 p2);
 int npy_posit16_ge(npy_posit16 p1, npy_posit16 p2);
 int npy_posit16_gt(npy_posit16 p1, npy_posit16 p2);
-int npy_posit16_eq_nonan(npy_posit16 p1, npy_posit16 p2);
-int npy_posit16_lt_nonan(npy_posit16 p1, npy_posit16 p2);
-int npy_posit16_le_nonan(npy_posit16 p1, npy_posit16 p2);
 /* Miscellaneous functions */
 int npy_posit16_iszero(npy_posit16 p);
 int npy_posit16_isnan(npy_posit16 p);

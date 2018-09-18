@@ -73,11 +73,6 @@ npy_posit32 npy_posit32_nextafter(npy_posit32 x, npy_posit32 y)
     return ret;
 }
 
-int npy_posit32_eq_nonan(npy_posit32 p1, npy_posit32 p2)
-{
-    return p1 == p2;
-}
-
 int npy_posit32_eq(npy_posit32 p1, npy_posit32 p2)
 {
     return p1 == p2;
@@ -88,16 +83,11 @@ int npy_posit32_ne(npy_posit32 p1, npy_posit32 p2)
     return !npy_posit32_eq(p1, p2);
 }
 
-int npy_posit32_lt_nonan(npy_posit32 p1, npy_posit32 p2)
+int npy_posit32_lt(npy_posit32 p1, npy_posit32 p2)
 {
     const int32_t s1 = *((int32_t*)&p1);
     const int32_t s2 = *((int32_t*)&p2);
     return s1 < s2;
-}
-
-int npy_posit32_lt(npy_posit32 p1, npy_posit32 p2)
-{
-    return npy_posit32_lt_nonan(p1, p2);
 }
 
 int npy_posit32_gt(npy_posit32 p1, npy_posit32 p2)
@@ -105,16 +95,11 @@ int npy_posit32_gt(npy_posit32 p1, npy_posit32 p2)
     return npy_posit32_lt(p2, p1);
 }
 
-int npy_posit32_le_nonan(npy_posit32 p1, npy_posit32 p2)
+int npy_posit32_le(npy_posit32 p1, npy_posit32 p2)
 {
     const int32_t s1 = *((int32_t*)&p1);
     const int32_t s2 = *((int32_t*)&p2);
     return s1 <= s2;
-}
-
-int npy_posit32_le(npy_posit32 p1, npy_posit32 p2)
-{
-    return npy_posit32_le_nonan(p1, p2);
 }
 
 int npy_posit32_ge(npy_posit32 p1, npy_posit32 p2)
