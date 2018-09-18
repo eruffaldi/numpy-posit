@@ -14,6 +14,8 @@
 #include "numpy/ufuncobject.h"
 #include "numpy/npy_math.h"
 #include "numpy/halffloat.h"
+#include "numpy/p8posit.h"
+#include "numpy/p16posit.h"
 #include "numpy/p32posit.h"
 #include "lowlevel_strided_loops.h"
 
@@ -250,11 +252,15 @@
 
 
 typedef float halfUnaryFunc(npy_half x);
+typedef npy_posit8 posit8UnaryFunc(npy_posit8 x);
+typedef npy_posit16 posit16UnaryFunc(npy_posit16 x);
 typedef npy_posit32 posit32UnaryFunc(npy_posit32 x);
 typedef float floatUnaryFunc(float x);
 typedef double doubleUnaryFunc(double x);
 typedef npy_longdouble longdoubleUnaryFunc(npy_longdouble x);
 typedef npy_half halfBinaryFunc(npy_half x, npy_half y);
+typedef npy_posit8 posit8BinaryFunc(npy_posit8 x, npy_posit8 y);
+typedef npy_posit16 posit16BinaryFunc(npy_posit16 x, npy_posit16 y);
 typedef npy_posit32 posit32BinaryFunc(npy_posit32 x, npy_posit32 y);
 typedef float floatBinaryFunc(float x, float y);
 typedef double doubleBinaryFunc(double x, double y);
@@ -291,6 +297,72 @@ PyUFunc_e_e_As_d_d(char **args, npy_intp *dimensions, npy_intp *steps, void *fun
     UNARY_LOOP {
         const double in1 = npy_half_to_double(*(npy_half *)ip1);
         *(npy_half *)op1 = npy_double_to_half(f(in1));
+    }
+}
+
+/*UFUNC_API*/
+NPY_NO_EXPORT void
+PyUFunc_r_r(char **args, npy_intp *dimensions, npy_intp *steps, void *func)
+{
+    posit8UnaryFunc *f = (posit8UnaryFunc *)func;
+    UNARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        *(npy_posit8 *)op1 = f(in1);
+    }
+}
+
+/*UFUNC_API*/
+NPY_NO_EXPORT void
+PyUFunc_r_r_As_f_f(char **args, npy_intp *dimensions, npy_intp *steps, void *func)
+{
+    floatUnaryFunc *f = (floatUnaryFunc *)func;
+    UNARY_LOOP {
+        const float in1 = npy_posit8_to_float(*(npy_posit8 *)ip1);
+        *(npy_posit8 *)op1 = npy_float_to_posit8(f(in1));
+    }
+}
+
+/*UFUNC_API*/
+NPY_NO_EXPORT void
+PyUFunc_r_r_As_d_d(char **args, npy_intp *dimensions, npy_intp *steps, void *func)
+{
+    doubleUnaryFunc *f = (doubleUnaryFunc *)func;
+    UNARY_LOOP {
+        const double in1 = npy_posit8_to_double(*(npy_posit8 *)ip1);
+        *(npy_posit8 *)op1 = npy_double_to_posit8(f(in1));
+    }
+}
+
+/*UFUNC_API*/
+NPY_NO_EXPORT void
+PyUFunc_k_k(char **args, npy_intp *dimensions, npy_intp *steps, void *func)
+{
+    posit16UnaryFunc *f = (posit16UnaryFunc *)func;
+    UNARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        *(npy_posit16 *)op1 = f(in1);
+    }
+}
+
+/*UFUNC_API*/
+NPY_NO_EXPORT void
+PyUFunc_k_k_As_f_f(char **args, npy_intp *dimensions, npy_intp *steps, void *func)
+{
+    floatUnaryFunc *f = (floatUnaryFunc *)func;
+    UNARY_LOOP {
+        const float in1 = npy_posit16_to_float(*(npy_posit16 *)ip1);
+        *(npy_posit16 *)op1 = npy_float_to_posit16(f(in1));
+    }
+}
+
+/*UFUNC_API*/
+NPY_NO_EXPORT void
+PyUFunc_k_k_As_d_d(char **args, npy_intp *dimensions, npy_intp *steps, void *func)
+{
+    doubleUnaryFunc *f = (doubleUnaryFunc *)func;
+    UNARY_LOOP {
+        const double in1 = npy_posit16_to_double(*(npy_posit16 *)ip1);
+        *(npy_posit16 *)op1 = npy_double_to_posit16(f(in1));
     }
 }
 
@@ -382,6 +454,78 @@ PyUFunc_ee_e_As_dd_d(char **args, npy_intp *dimensions, npy_intp *steps, void *f
         double in1 = npy_half_to_double(*(npy_half *)ip1);
         double in2 = npy_half_to_double(*(npy_half *)ip2);
         *(npy_half *)op1 = npy_double_to_half(f(in1, in2));
+    }
+}
+
+/*UFUNC_API*/
+NPY_NO_EXPORT void
+PyUFunc_rr_r(char **args, npy_intp *dimensions, npy_intp *steps, void *func)
+{
+    posit8BinaryFunc *f = (posit8BinaryFunc *)func;
+    BINARY_LOOP {
+        npy_posit8 in1 = *(npy_posit8 *)ip1;
+        npy_posit8 in2 = *(npy_posit8 *)ip2;
+        *(npy_posit8 *)op1 = f(in1, in2);
+    }
+}
+
+/*UFUNC_API*/
+NPY_NO_EXPORT void
+PyUFunc_rr_r_As_ff_f(char **args, npy_intp *dimensions, npy_intp *steps, void *func)
+{
+    floatBinaryFunc *f = (floatBinaryFunc *)func;
+    BINARY_LOOP {
+        float in1 = npy_posit8_to_float(*(npy_posit8 *)ip1);
+        float in2 = npy_posit8_to_float(*(npy_posit8 *)ip2);
+        *(npy_posit8 *)op1 = npy_float_to_posit8(f(in1, in2));
+    }
+}
+
+/*UFUNC_API*/
+NPY_NO_EXPORT void
+PyUFunc_rr_r_As_dd_d(char **args, npy_intp *dimensions, npy_intp *steps, void *func)
+{
+    doubleBinaryFunc *f = (doubleBinaryFunc *)func;
+    BINARY_LOOP {
+        double in1 = npy_posit8_to_double(*(npy_posit8 *)ip1);
+        double in2 = npy_posit8_to_double(*(npy_posit8 *)ip2);
+        *(npy_posit8 *)op1 = npy_double_to_posit8(f(in1, in2));
+    }
+}
+
+/*UFUNC_API*/
+NPY_NO_EXPORT void
+PyUFunc_kk_k(char **args, npy_intp *dimensions, npy_intp *steps, void *func)
+{
+    posit16BinaryFunc *f = (posit16BinaryFunc *)func;
+    BINARY_LOOP {
+        npy_posit16 in1 = *(npy_posit16 *)ip1;
+        npy_posit16 in2 = *(npy_posit16 *)ip2;
+        *(npy_posit16 *)op1 = f(in1, in2);
+    }
+}
+
+/*UFUNC_API*/
+NPY_NO_EXPORT void
+PyUFunc_kk_k_As_ff_f(char **args, npy_intp *dimensions, npy_intp *steps, void *func)
+{
+    floatBinaryFunc *f = (floatBinaryFunc *)func;
+    BINARY_LOOP {
+        float in1 = npy_posit16_to_float(*(npy_posit16 *)ip1);
+        float in2 = npy_posit16_to_float(*(npy_posit16 *)ip2);
+        *(npy_posit16 *)op1 = npy_float_to_posit16(f(in1, in2));
+    }
+}
+
+/*UFUNC_API*/
+NPY_NO_EXPORT void
+PyUFunc_kk_k_As_dd_d(char **args, npy_intp *dimensions, npy_intp *steps, void *func)
+{
+    doubleBinaryFunc *f = (doubleBinaryFunc *)func;
+    BINARY_LOOP {
+        double in1 = npy_posit16_to_double(*(npy_posit16 *)ip1);
+        double in2 = npy_posit16_to_double(*(npy_posit16 *)ip2);
+        *(npy_posit16 *)op1 = npy_double_to_posit16(f(in1, in2));
     }
 }
 
@@ -2488,6 +2632,720 @@ HALF_ldexp_long(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UN
 }
 
 #define HALF_true_divide HALF_divide
+
+/*
+ *****************************************************************************
+ **                          POSIT8 LOOPS                                   **
+ *****************************************************************************
+ */
+
+NPY_NO_EXPORT void
+POSIT8_sqrt(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        *(npy_posit8 *)op1 = npy_sqrt_p8(in1);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_power(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        const npy_posit8 in2 = *(npy_posit8 *)ip2;
+        *(npy_posit8 *)op1 = npy_pow_p8(in1, in2);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_log10(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        *(npy_posit8 *)op1 = npy_log10_p8(in1);
+    }
+}
+
+/**begin repeat
+ * Arithmetic
+ * # kind = add, subtract, multiply, divide#
+ * # OP = +, -, *, /#
+ * # POSITOP = add, sub, mul, div#
+ * # PW = 0, 0, 0, 0#
+ */
+NPY_NO_EXPORT void
+POSIT8_@kind@(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    if (IS_BINARY_REDUCE) {
+        char *iop1 = args[0];
+        posit8_t acc = { .v=*(npy_posit8 *)iop1 };
+#if @PW@
+#else
+        BINARY_REDUCE_LOOP_INNER {
+            const posit8_t in2 = { .v=*(npy_posit8 *)ip2 };
+            acc = p8_@POSITOP@(acc, in2);
+        }
+#endif
+        *((npy_posit8 *)iop1) = acc.v;
+    }
+    else {
+        BINARY_LOOP {
+            const posit8_t in1 = { .v=*(npy_posit8 *)ip1 };
+            const posit8_t in2 = { .v=*(npy_posit8 *)ip2 };
+            posit8_t r = p8_@POSITOP@(in1, in2);
+            *((npy_posit8 *)op1) = r.v;
+        }
+    }
+}
+/**end repeat**/
+
+#define _POSIT8_LOGICAL_AND(a,b) (!npy_posit8_iszero(a) && !npy_posit8_iszero(b))
+#define _POSIT8_LOGICAL_OR(a,b) (!npy_posit8_iszero(a) || !npy_posit8_iszero(b))
+/**begin repeat
+ * #kind = equal, not_equal, less, less_equal, greater,
+ *         greater_equal, logical_and, logical_or#
+ * #OP = npy_posit8_eq, npy_posit8_ne, npy_posit8_lt, npy_posit8_le, npy_posit8_gt,
+ *       npy_posit8_ge, _POSIT8_LOGICAL_AND, _POSIT8_LOGICAL_OR#
+ */
+NPY_NO_EXPORT void
+POSIT8_@kind@(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        const npy_posit8 in2 = *(npy_posit8 *)ip2;
+        *((npy_bool *)op1) = @OP@(in1, in2);
+    }
+}
+/**end repeat**/
+#undef _POSIT8_LOGICAL_AND
+#undef _POSIT8_LOGICAL_OR
+
+NPY_NO_EXPORT void
+POSIT8_logical_xor(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const int in1 = !npy_posit8_iszero(*(npy_posit8 *)ip1);
+        const int in2 = !npy_posit8_iszero(*(npy_posit8 *)ip2);
+        *((npy_bool *)op1) = (in1 != in2);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_logical_not(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        *((npy_bool *)op1) = npy_posit8_iszero(in1);
+    }
+}
+
+/**begin repeat
+ * #kind = isnan, isinf, isfinite, signbit#
+ * #func = npy_posit8_isnan, npy_posit8_isinf, npy_posit8_isfinite, npy_posit8_signbit#
+ **/
+NPY_NO_EXPORT void
+POSIT8_@kind@(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        *((npy_bool *)op1) = @func@(in1) != 0;
+    }
+}
+/**end repeat**/
+
+NPY_NO_EXPORT void
+POSIT8_spacing(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        *((npy_posit8 *)op1) = npy_posit8_spacing(in1);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_copysign(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        const npy_posit8 in2 = *(npy_posit8 *)ip2;
+        *((npy_posit8 *)op1)= npy_posit8_copysign(in1, in2);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_nextafter(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        const npy_posit8 in2 = *(npy_posit8 *)ip2;
+        *((npy_posit8 *)op1)= npy_posit8_nextafter(in1, in2);
+    }
+}
+
+/**begin repeat
+ * #kind = maximum, minimum#
+ * #OP =  npy_posit8_ge, npy_posit8_le#
+ **/
+NPY_NO_EXPORT void
+POSIT8_@kind@(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    /*  */
+    BINARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        const npy_posit8 in2 = *(npy_posit8 *)ip2;
+        *((npy_posit8 *)op1) = @OP@(in1, in2) ? in1 : in2;
+    }
+}
+/**end repeat**/
+
+/**begin repeat
+ * #kind = fmax, fmin#
+ * #OP =  npy_posit8_ge, npy_posit8_le#
+ **/
+NPY_NO_EXPORT void
+POSIT8_@kind@(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    /*  */
+    BINARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        const npy_posit8 in2 = *(npy_posit8 *)ip2;
+        *((npy_posit8 *)op1) = @OP@(in1, in2) ? in1 : in2;
+    }
+}
+/**end repeat**/
+
+NPY_NO_EXPORT void
+POSIT8_floor_divide(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        const npy_posit8 in2 = *(npy_posit8 *)ip2;
+        npy_posit8 mod;
+        *((npy_posit8 *)op1) = npy_posit8_divmod(in1, in2, &mod);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_remainder(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        const npy_posit8 in2 = *(npy_posit8 *)ip2;
+        npy_posit8_divmod(in1, in2, (npy_posit8 *)op1);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_divmod(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP_TWO_OUT {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        const npy_posit8 in2 = *(npy_posit8 *)ip2;
+        *((npy_posit8 *)op1) = npy_posit8_divmod(in1, in2, (npy_posit8 *)op2);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_square(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(data))
+{
+    UNARY_LOOP {
+        const posit8_t in1 = { .v=*(npy_posit8 *)ip1 };
+        posit8_t r = p8_mul(in1, in1);
+        *((npy_posit8 *)op1) = r.v;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_reciprocal(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(data))
+{
+    UNARY_LOOP {
+        const posit8_t one = { .v=NPY_POSIT8_ONE };
+        const posit8_t in1 = { .v=*(npy_posit8 *)ip1 };
+        posit8_t r = p8_div(one, in1);
+        *((npy_posit8 *)op1) = r.v;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8__ones_like(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(data))
+{
+    OUTPUT_LOOP {
+        *((npy_posit8 *)op1) = NPY_POSIT8_ONE;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_conjugate(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        *((npy_posit8 *)op1) = in1;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_absolute(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        *((npy_posit8 *)op1) = (in1 >> 31) ? -in1 : in1;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_negative(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        *((npy_posit8 *)op1) = -in1;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_positive(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        *((npy_posit8 *)op1) = +in1;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_sign(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit8 in1 = *(npy_posit8 *)ip1;
+        *((npy_posit8 *)op1) = npy_posit8_isnan(in1) ? in1 :
+            ((in1 == NPY_POSIT8_ZERO) ? NPY_POSIT8_ZERO :
+                (((in1 >> 31) == 0) ? NPY_POSIT8_ONE : NPY_POSIT8_NEGONE));
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_modf(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    // FIXME
+    float temp;
+
+    UNARY_LOOP_TWO_OUT {
+        const float in1 = npy_posit8_to_float(*(npy_posit8 *)ip1);
+        *((npy_posit8 *)op1) = npy_float_to_posit8(npy_modff(in1, &temp));
+        *((npy_posit8 *)op2) = npy_float_to_posit8(temp);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_frexp(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    // FIXME
+    UNARY_LOOP_TWO_OUT {
+        const float in1 = npy_posit8_to_float(*(npy_posit8 *)ip1);
+        *((npy_posit8 *)op1) = npy_float_to_posit8(npy_frexpf(in1, (int *)op2));
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_ldexp(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    // FIXME
+    BINARY_LOOP {
+        const float in1 = npy_posit8_to_float(*(npy_posit8 *)ip1);
+        const int in2 = *(int *)ip2;
+        *((npy_posit8 *)op1) = npy_float_to_posit8(npy_ldexpf(in1, in2));
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT8_ldexp_long(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    // FIXME
+    /*
+     * Additional loop to handle npy_long integer inputs (cf. #866, #1633).
+     * npy_long != npy_int on many 64-bit platforms, so we need this second loop
+     * to handle the default integer type.
+     */
+    BINARY_LOOP {
+        const float in1 = npy_posit8_to_float(*(npy_posit8 *)ip1);
+        const long in2 = *(long *)ip2;
+        if (((int)in2) == in2) {
+            /* Range OK */
+            *((npy_posit8 *)op1) = npy_float_to_posit8(npy_ldexpf(in1, ((int)in2)));
+        }
+        else {
+            /*
+             * Outside npy_int range -- also ldexp will overflow in this case,
+             * given that exponent has less bits than npy_int.
+             */
+            if (in2 > 0) {
+                *((npy_posit8 *)op1) = npy_float_to_posit8(npy_ldexpf(in1, NPY_MAX_INT));
+            }
+            else {
+                *((npy_posit8 *)op1) = npy_float_to_posit8(npy_ldexpf(in1, NPY_MIN_INT));
+            }
+        }
+    }
+}
+
+#define POSIT8_true_divide POSIT8_divide
+
+
+/*
+ *****************************************************************************
+ **                          POSIT16 LOOPS                                  **
+ *****************************************************************************
+ */
+
+NPY_NO_EXPORT void
+POSIT16_sqrt(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        *(npy_posit16 *)op1 = npy_sqrt_p16(in1);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_power(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        const npy_posit16 in2 = *(npy_posit16 *)ip2;
+        *(npy_posit16 *)op1 = npy_pow_p16(in1, in2);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_log10(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        *(npy_posit16 *)op1 = npy_log10_p16(in1);
+    }
+}
+
+/**begin repeat
+ * Arithmetic
+ * # kind = add, subtract, multiply, divide#
+ * # OP = +, -, *, /#
+ * # POSITOP = add, sub, mul, div#
+ * # PW = 0, 0, 0, 0#
+ */
+NPY_NO_EXPORT void
+POSIT16_@kind@(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    if (IS_BINARY_REDUCE) {
+        char *iop1 = args[0];
+        posit16_t acc = { .v=*(npy_posit16 *)iop1 };
+#if @PW@
+#else
+        BINARY_REDUCE_LOOP_INNER {
+            const posit16_t in2 = { .v=*(npy_posit16 *)ip2 };
+            acc = p16_@POSITOP@(acc, in2);
+        }
+#endif
+        *((npy_posit16 *)iop1) = acc.v;
+    }
+    else {
+        BINARY_LOOP {
+            const posit16_t in1 = { .v=*(npy_posit16 *)ip1 };
+            const posit16_t in2 = { .v=*(npy_posit16 *)ip2 };
+            posit16_t r = p16_@POSITOP@(in1, in2);
+            *((npy_posit16 *)op1) = r.v;
+        }
+    }
+}
+/**end repeat**/
+
+#define _POSIT16_LOGICAL_AND(a,b) (!npy_posit16_iszero(a) && !npy_posit16_iszero(b))
+#define _POSIT16_LOGICAL_OR(a,b) (!npy_posit16_iszero(a) || !npy_posit16_iszero(b))
+/**begin repeat
+ * #kind = equal, not_equal, less, less_equal, greater,
+ *         greater_equal, logical_and, logical_or#
+ * #OP = npy_posit16_eq, npy_posit16_ne, npy_posit16_lt, npy_posit16_le, npy_posit16_gt,
+ *       npy_posit16_ge, _POSIT16_LOGICAL_AND, _POSIT16_LOGICAL_OR#
+ */
+NPY_NO_EXPORT void
+POSIT16_@kind@(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        const npy_posit16 in2 = *(npy_posit16 *)ip2;
+        *((npy_bool *)op1) = @OP@(in1, in2);
+    }
+}
+/**end repeat**/
+#undef _POSIT16_LOGICAL_AND
+#undef _POSIT16_LOGICAL_OR
+
+NPY_NO_EXPORT void
+POSIT16_logical_xor(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const int in1 = !npy_posit16_iszero(*(npy_posit16 *)ip1);
+        const int in2 = !npy_posit16_iszero(*(npy_posit16 *)ip2);
+        *((npy_bool *)op1) = (in1 != in2);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_logical_not(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        *((npy_bool *)op1) = npy_posit16_iszero(in1);
+    }
+}
+
+/**begin repeat
+ * #kind = isnan, isinf, isfinite, signbit#
+ * #func = npy_posit16_isnan, npy_posit16_isinf, npy_posit16_isfinite, npy_posit16_signbit#
+ **/
+NPY_NO_EXPORT void
+POSIT16_@kind@(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        *((npy_bool *)op1) = @func@(in1) != 0;
+    }
+}
+/**end repeat**/
+
+NPY_NO_EXPORT void
+POSIT16_spacing(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        *((npy_posit16 *)op1) = npy_posit16_spacing(in1);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_copysign(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        const npy_posit16 in2 = *(npy_posit16 *)ip2;
+        *((npy_posit16 *)op1)= npy_posit16_copysign(in1, in2);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_nextafter(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        const npy_posit16 in2 = *(npy_posit16 *)ip2;
+        *((npy_posit16 *)op1)= npy_posit16_nextafter(in1, in2);
+    }
+}
+
+/**begin repeat
+ * #kind = maximum, minimum#
+ * #OP =  npy_posit16_ge, npy_posit16_le#
+ **/
+NPY_NO_EXPORT void
+POSIT16_@kind@(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    /*  */
+    BINARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        const npy_posit16 in2 = *(npy_posit16 *)ip2;
+        *((npy_posit16 *)op1) = @OP@(in1, in2) ? in1 : in2;
+    }
+}
+/**end repeat**/
+
+/**begin repeat
+ * #kind = fmax, fmin#
+ * #OP =  npy_posit16_ge, npy_posit16_le#
+ **/
+NPY_NO_EXPORT void
+POSIT16_@kind@(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    /*  */
+    BINARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        const npy_posit16 in2 = *(npy_posit16 *)ip2;
+        *((npy_posit16 *)op1) = @OP@(in1, in2) ? in1 : in2;
+    }
+}
+/**end repeat**/
+
+NPY_NO_EXPORT void
+POSIT16_floor_divide(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        const npy_posit16 in2 = *(npy_posit16 *)ip2;
+        npy_posit16 mod;
+        *((npy_posit16 *)op1) = npy_posit16_divmod(in1, in2, &mod);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_remainder(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        const npy_posit16 in2 = *(npy_posit16 *)ip2;
+        npy_posit16_divmod(in1, in2, (npy_posit16 *)op1);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_divmod(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    BINARY_LOOP_TWO_OUT {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        const npy_posit16 in2 = *(npy_posit16 *)ip2;
+        *((npy_posit16 *)op1) = npy_posit16_divmod(in1, in2, (npy_posit16 *)op2);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_square(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(data))
+{
+    UNARY_LOOP {
+        const posit16_t in1 = { .v=*(npy_posit16 *)ip1 };
+        posit16_t r = p16_mul(in1, in1);
+        *((npy_posit16 *)op1) = r.v;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_reciprocal(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(data))
+{
+    UNARY_LOOP {
+        const posit16_t one = { .v=NPY_POSIT16_ONE };
+        const posit16_t in1 = { .v=*(npy_posit16 *)ip1 };
+        posit16_t r = p16_div(one, in1);
+        *((npy_posit16 *)op1) = r.v;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16__ones_like(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(data))
+{
+    OUTPUT_LOOP {
+        *((npy_posit16 *)op1) = NPY_POSIT16_ONE;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_conjugate(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        *((npy_posit16 *)op1) = in1;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_absolute(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        *((npy_posit16 *)op1) = (in1 >> 31) ? -in1 : in1;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_negative(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        *((npy_posit16 *)op1) = -in1;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_positive(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        *((npy_posit16 *)op1) = +in1;
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_sign(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    UNARY_LOOP {
+        const npy_posit16 in1 = *(npy_posit16 *)ip1;
+        *((npy_posit16 *)op1) = npy_posit16_isnan(in1) ? in1 :
+            ((in1 == NPY_POSIT16_ZERO) ? NPY_POSIT16_ZERO :
+                (((in1 >> 31) == 0) ? NPY_POSIT16_ONE : NPY_POSIT16_NEGONE));
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_modf(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    // FIXME
+    float temp;
+
+    UNARY_LOOP_TWO_OUT {
+        const float in1 = npy_posit16_to_float(*(npy_posit16 *)ip1);
+        *((npy_posit16 *)op1) = npy_float_to_posit16(npy_modff(in1, &temp));
+        *((npy_posit16 *)op2) = npy_float_to_posit16(temp);
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_frexp(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    // FIXME
+    UNARY_LOOP_TWO_OUT {
+        const float in1 = npy_posit16_to_float(*(npy_posit16 *)ip1);
+        *((npy_posit16 *)op1) = npy_float_to_posit16(npy_frexpf(in1, (int *)op2));
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_ldexp(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    // FIXME
+    BINARY_LOOP {
+        const float in1 = npy_posit16_to_float(*(npy_posit16 *)ip1);
+        const int in2 = *(int *)ip2;
+        *((npy_posit16 *)op1) = npy_float_to_posit16(npy_ldexpf(in1, in2));
+    }
+}
+
+NPY_NO_EXPORT void
+POSIT16_ldexp_long(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func))
+{
+    // FIXME
+    /*
+     * Additional loop to handle npy_long integer inputs (cf. #866, #1633).
+     * npy_long != npy_int on many 64-bit platforms, so we need this second loop
+     * to handle the default integer type.
+     */
+    BINARY_LOOP {
+        const float in1 = npy_posit16_to_float(*(npy_posit16 *)ip1);
+        const long in2 = *(long *)ip2;
+        if (((int)in2) == in2) {
+            /* Range OK */
+            *((npy_posit16 *)op1) = npy_float_to_posit16(npy_ldexpf(in1, ((int)in2)));
+        }
+        else {
+            /*
+             * Outside npy_int range -- also ldexp will overflow in this case,
+             * given that exponent has less bits than npy_int.
+             */
+            if (in2 > 0) {
+                *((npy_posit16 *)op1) = npy_float_to_posit16(npy_ldexpf(in1, NPY_MAX_INT));
+            }
+            else {
+                *((npy_posit16 *)op1) = npy_float_to_posit16(npy_ldexpf(in1, NPY_MIN_INT));
+            }
+        }
+    }
+}
+
+#define POSIT16_true_divide POSIT16_divide
+
 
 /*
  *****************************************************************************

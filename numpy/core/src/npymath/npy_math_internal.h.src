@@ -54,6 +54,8 @@
  * ====================================================
  */
 #include "npy_math_private.h"
+#include "numpy/p8posit.h"
+#include "numpy/p16posit.h"
 #include "numpy/p32posit.h"
 
 /*
@@ -453,11 +455,47 @@ NPY_INPLACE @type@ npy_frexp@c@(@type@ x, int* exp)
  * Decorate all the math functions which are available on the current platform
  */
 
+NPY_INPLACE npy_posit8 npy_sqrt_p8(npy_posit8 x)
+{
+    posit8_t p = { .v=x };
+    posit8_t r = p8_sqrt(p);
+    return r.v;
+}
+
+NPY_INPLACE npy_posit16 npy_sqrt_p16(npy_posit16 x)
+{
+    posit16_t p = { .v=x };
+    posit16_t r = p16_sqrt(p);
+    return r.v;
+}
+
 NPY_INPLACE npy_posit32 npy_sqrt_p32(npy_posit32 x)
 {
     posit32_t p = { .v=x };
     posit32_t r = p32_sqrt(p);
     return r.v;
+}
+
+NPY_INPLACE npy_posit8 npy_pow_p8(npy_posit8 x, npy_posit8 y)
+{
+    posit8_t px = { .v=x };
+    posit8_t py = { .v=y };
+    double fx = convertP8ToDouble(px);
+    double fy = convertP8ToDouble(py);
+    double fr = npy_pow(fx, fy);
+    posit8_t pr = convertDoubleToP8(fr);
+    return pr.v;
+}
+
+NPY_INPLACE npy_posit16 npy_pow_p16(npy_posit16 x, npy_posit16 y)
+{
+    posit16_t px = { .v=x };
+    posit16_t py = { .v=y };
+    double fx = convertP16ToDouble(px);
+    double fy = convertP16ToDouble(py);
+    double fr = npy_pow(fx, fy);
+    posit16_t pr = convertDoubleToP16(fr);
+    return pr.v;
 }
 
 NPY_INPLACE npy_posit32 npy_pow_p32(npy_posit32 x, npy_posit32 y)
@@ -468,6 +506,24 @@ NPY_INPLACE npy_posit32 npy_pow_p32(npy_posit32 x, npy_posit32 y)
     double fy = convertP32ToDouble(py);
     double fr = npy_pow(fx, fy);
     posit32_t pr = convertDoubleToP32(fr);
+    return pr.v;
+}
+
+NPY_INPLACE npy_posit8 npy_log10_p8(npy_posit8 x)
+{
+    posit8_t px = { .v=x };
+    double fx = convertP8ToDouble(px);
+    double fr = npy_log10(fx);
+    posit8_t pr = convertDoubleToP8(fr);
+    return pr.v;
+}
+
+NPY_INPLACE npy_posit16 npy_log10_p16(npy_posit16 x)
+{
+    posit16_t px = { .v=x };
+    double fx = convertP16ToDouble(px);
+    double fr = npy_log10(fx);
+    posit16_t pr = convertDoubleToP16(fr);
     return pr.v;
 }
 

@@ -311,6 +311,14 @@ npy_longdouble npy_spacingl(npy_longdouble x);
 /*
  * Posit functions
  */
+NPY_INPLACE npy_posit8 npy_sqrt_p8(npy_posit8 x);
+NPY_INPLACE npy_posit8 npy_pow_p8(npy_posit8 x, npy_posit8 y);
+NPY_INPLACE npy_posit8 npy_log10_p8(npy_posit8 x);
+
+NPY_INPLACE npy_posit16 npy_sqrt_p16(npy_posit16 x);
+NPY_INPLACE npy_posit16 npy_pow_p16(npy_posit16 x, npy_posit16 y);
+NPY_INPLACE npy_posit16 npy_log10_p16(npy_posit16 x);
+
 NPY_INPLACE npy_posit32 npy_sqrt_p32(npy_posit32 x);
 NPY_INPLACE npy_posit32 npy_pow_p32(npy_posit32 x, npy_posit32 y);
 NPY_INPLACE npy_posit32 npy_log10_p32(npy_posit32 x);

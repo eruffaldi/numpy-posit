@@ -152,12 +152,12 @@ NPY_NO_EXPORT void
 
 /*
  *****************************************************************************
- **                             FLOAT LOOPS                                 **
+ **                             FLOAT/POSIT LOOPS                           **
  *****************************************************************************
  */
 
 /**begin repeat
- *  #TYPE = FLOAT, DOUBLE, POSIT32#
+ *  #TYPE = FLOAT, DOUBLE, POSIT8, POSIT16, POSIT32#
  */
 NPY_NO_EXPORT void
 @TYPE@_sqrt(char **args, npy_intp *dimensions, npy_intp *steps, void *NPY_UNUSED(func));
@@ -165,9 +165,9 @@ NPY_NO_EXPORT void
 
 /**begin repeat
  * Float types
- *  #TYPE = HALF, POSIT32, FLOAT, DOUBLE, LONGDOUBLE#
- *  #c = f, f, f, , l#
- *  #C = F, F, F, , L#
+ *  #TYPE = HALF, POSIT8, POSIT16, POSIT32, FLOAT, DOUBLE, LONGDOUBLE#
+ *  #c = f, f, f, f, f, , l#
+ *  #C = F, F, F, F, F, , L#
  */
 
 
