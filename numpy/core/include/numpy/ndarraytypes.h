@@ -77,7 +77,8 @@ enum NPY_TYPES {    NPY_BOOL=0,
                      * New 1.6 types appended, may be integrated
                      * into the above in 2.0.
                      */
-                    NPY_DATETIME, NPY_TIMEDELTA, NPY_HALF, NPY_POSIT32,
+                    NPY_DATETIME, NPY_TIMEDELTA, NPY_HALF,
+                    NPY_POSIT8, NPY_POSIT16, NPY_POSIT32,
 
                     NPY_NTYPES,
                     NPY_NOTYPE,
@@ -121,6 +122,8 @@ enum NPY_TYPECHAR {
         NPY_LONGLONGLTR = 'q',
         NPY_ULONGLONGLTR = 'Q',
         NPY_HALFLTR = 'e',
+        NPY_POSIT8LTR = 'r',
+        NPY_POSIT16LTR = 'k',
         NPY_POSIT32LTR = 'K',
         NPY_FLOATLTR = 'f',
         NPY_DOUBLELTR = 'd',
@@ -1639,14 +1642,18 @@ PyArray_CLEARFLAGS(PyArrayObject *arr, int flags)
 #define PyTypeNum_ISFLOAT(type) ((((type) >= NPY_FLOAT) && \
                               ((type) <= NPY_LONGDOUBLE)) || \
                               ((type) == NPY_HALF) || \
+                              ((type) == NPY_POSIT8) || \
+                              ((type) == NPY_POSIT16) || \
                               ((type) == NPY_POSIT32))
 
-#define PyTypeNum_ISPOSIT(type) (((type) >= NPY_POSIT32) && \
+#define PyTypeNum_ISPOSIT(type) (((type) >= NPY_POSIT8) && \
                               ((type) <= NPY_POSIT32))
 
 #define PyTypeNum_ISNUMBER(type) (((type) <= NPY_CLONGDOUBLE) || \
                                   ((type) == NPY_HALF) || \
-                                  ((type) == NPY_POSIT32))
+                                  ((type) == NPY_POSIT32) || \
+                                  ((type) == NPY_POSIT16) || \
+                                  ((type) == NPY_POSIT8))
 
 #define PyTypeNum_ISSTRING(type) (((type) == NPY_STRING) ||    \
                                   ((type) == NPY_UNICODE))

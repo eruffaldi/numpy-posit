@@ -48,6 +48,8 @@
 #define Int256      npy_int256
 #define UInt256     npy_uint256
 #define Float16     npy_float16
+#define Posit8      npy_posit8
+#define Posit16     npy_posit16
 #define Posit32     npy_posit32
 #define Complex32   npy_complex32
 #define Float32     npy_float32
