@@ -596,7 +596,7 @@ half_ctype_absolute(npy_half a, npy_half *out)
 static void
 posit32_ctype_absolute(npy_posit32 a, npy_posit32 *out)
 {
-    *out = (a&0x80000000) ? -a : a;
+    *out = (a&0x80000000u) ? -a : a;
 }
 
 /**begin repeat
