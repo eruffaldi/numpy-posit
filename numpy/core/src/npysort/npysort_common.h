@@ -22,6 +22,8 @@
 #define LONGLONG_SWAP(a,b) {npy_longlong tmp = (b); (b)=(a); (a) = tmp;}
 #define ULONGLONG_SWAP(a,b) {npy_ulonglong tmp = (b); (b)=(a); (a) = tmp;}
 #define HALF_SWAP(a,b) {npy_half tmp = (b); (b)=(a); (a) = tmp;}
+#define POSIT8_SWAP(a,b) {npy_posit8 tmp = (b); (b)=(a); (a) = tmp;}
+#define POSIT16_SWAP(a,b) {npy_posit16 tmp = (b); (b)=(a); (a) = tmp;}
 #define POSIT32_SWAP(a,b) {npy_posit32 tmp = (b); (b)=(a); (a) = tmp;}
 #define FLOAT_SWAP(a,b) {npy_float tmp = (b); (b)=(a); (a) = tmp;}
 #define DOUBLE_SWAP(a,b) {npy_double tmp = (b); (b)=(a); (a) = tmp;}
@@ -186,9 +188,41 @@ HALF_LT(npy_half a, npy_half b)
 
 
 NPY_INLINE static int
+npy_posit8_isnan(npy_posit8 p)
+{
+    return p == 0x80u;
+}
+
+
+NPY_INLINE static int
+npy_posit16_isnan(npy_posit16 p)
+{
+    return p == 0x8000u;
+}
+
+
+NPY_INLINE static int
 npy_posit32_isnan(npy_posit32 p)
 {
     return p == 0x80000000u;
+}
+
+
+NPY_INLINE static int
+npy_posit8_lt_nonan(npy_posit8 p1, npy_posit8 p2)
+{
+    const int8_t s1 = *((int8_t*)&p1);
+    const int8_t s2 = *((int8_t*)&p2);
+    return s1 < s2;
+}
+
+
+NPY_INLINE static int
+npy_posit16_lt_nonan(npy_posit16 p1, npy_posit16 p2)
+{
+    const int16_t s1 = *((int16_t*)&p1);
+    const int16_t s2 = *((int16_t*)&p2);
+    return s1 < s2;
 }
 
 
@@ -198,6 +232,20 @@ npy_posit32_lt_nonan(npy_posit32 p1, npy_posit32 p2)
     const int32_t s1 = *((int32_t*)&p1);
     const int32_t s2 = *((int32_t*)&p2);
     return s1 < s2;
+}
+
+
+NPY_INLINE static int
+POSIT8_LT(npy_posit8 a, npy_posit8 b)
+{
+    return npy_posit8_lt_nonan(a, b);
+}
+
+
+NPY_INLINE static int
+POSIT16_LT(npy_posit16 a, npy_posit16 b)
+{
+    return npy_posit16_lt_nonan(a, b);
 }
 
 

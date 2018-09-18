@@ -114,6 +114,22 @@ int aheapsort_half(void *vec, npy_intp *ind, npy_intp cnt, void *null);
 int amergesort_half(void *vec, npy_intp *ind, npy_intp cnt, void *null);
 
 
+int quicksort_posit8(void *vec, npy_intp cnt, void *null);
+int heapsort_posit8(void *vec, npy_intp cnt, void *null);
+int mergesort_posit8(void *vec, npy_intp cnt, void *null);
+int aquicksort_posit8(void *vec, npy_intp *ind, npy_intp cnt, void *null);
+int aheapsort_posit8(void *vec, npy_intp *ind, npy_intp cnt, void *null);
+int amergesort_posit8(void *vec, npy_intp *ind, npy_intp cnt, void *null);
+
+
+int quicksort_posit16(void *vec, npy_intp cnt, void *null);
+int heapsort_posit16(void *vec, npy_intp cnt, void *null);
+int mergesort_posit16(void *vec, npy_intp cnt, void *null);
+int aquicksort_posit16(void *vec, npy_intp *ind, npy_intp cnt, void *null);
+int aheapsort_posit16(void *vec, npy_intp *ind, npy_intp cnt, void *null);
+int amergesort_posit16(void *vec, npy_intp *ind, npy_intp cnt, void *null);
+
+
 int quicksort_posit32(void *vec, npy_intp cnt, void *null);
 int heapsort_posit32(void *vec, npy_intp cnt, void *null);
 int mergesort_posit32(void *vec, npy_intp cnt, void *null);
