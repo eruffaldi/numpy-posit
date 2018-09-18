@@ -56,7 +56,7 @@ int npy_posit32_signbit(npy_posit32 p)
 
 npy_posit32 npy_posit32_spacing(npy_posit32 p)
 {
-    // FIXME
+    // FIXME(xman)
     npy_posit32 ret = 1u;
     return ret;
 }
@@ -68,7 +68,7 @@ npy_posit32 npy_posit32_copysign(npy_posit32 x, npy_posit32 y)
 
 npy_posit32 npy_posit32_nextafter(npy_posit32 x, npy_posit32 y)
 {
-    // FIXME
+    // FIXME(xman)
     npy_posit32 ret = 1u;
     return ret;
 }
@@ -80,12 +80,6 @@ int npy_posit32_eq_nonan(npy_posit32 p1, npy_posit32 p2)
 
 int npy_posit32_eq(npy_posit32 p1, npy_posit32 p2)
 {
-    /*
-     * The equality cases are as follows:
-     *   - If either value is NaN, never equal.
-     *   - If the values are equal, equal.
-     *   - If the values are both signed zeros, equal.
-     */
     return p1 == p2;
 }
 
@@ -183,4 +177,18 @@ npy_uint64 npy_posit32bits_to_doublebits(npy_uint32 p)
     union { double ret; npy_uint64 retbits; } conv;
     conv.ret = convertP32ToDouble(u);
     return conv.retbits;
+}
+
+npy_uint8 npy_posit32bits_to_posit8bits(npy_uint32 p)
+{
+    posit32_t u = { .v=p };
+    posit8_t r = p32_to_p8(u);
+    return r.v;
+}
+
+npy_uint16 npy_posit32bits_to_posit16bits(npy_uint32 p)
+{
+    posit32_t u = { .v=p };
+    posit16_t r = p32_to_p16(u);
+    return r.v;
 }
