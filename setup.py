@@ -68,8 +68,8 @@ MICRO               = 2
 POSITMAJOR          = 0
 POSITMINOR          = 0
 POSITMICRO          = 1
-POSITNANO           = ".dev1"
-ISRELEASED          = True
+POSITNANO           = ".dev2"
+ISRELEASED          = False
 VERSION             = '%d.%d.%d.%d.%d.%d%s' % (MAJOR, MINOR, MICRO, POSITMAJOR, POSITMINOR, POSITMICRO, POSITNANO)
 
 
