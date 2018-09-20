@@ -696,7 +696,7 @@ def configuration(parent_package='',top_path=None):
                 'include_dirs' : [ join('src', 'npymath', 'softposit', 'source', 'include'),
                                    join('src', 'npymath', 'softposit', 'build', 'Linux-x86_64-GCC'),
                                  ],
-                'extra_compiler_args' : ([]),
+                'extra_compiler_args' : (['-std=c99']),
             })
     config.add_installed_library('npymath',
             sources=npymath_sources + [get_mathlib_info],
