@@ -65,8 +65,12 @@ Operating System :: MacOS
 MAJOR               = 1
 MINOR               = 15
 MICRO               = 2
-ISRELEASED          = False
-VERSION             = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
+POSITMAJOR          = 0
+POSITMINOR          = 0
+POSITMICRO          = 1
+POSITNANO           = ".dev1"
+ISRELEASED          = True
+VERSION             = '%d.%d.%d.%d.%d.%d%s' % (MAJOR, MINOR, MICRO, POSITMAJOR, POSITMINOR, POSITMICRO, POSITNANO)
 
 
 # Return the git revision as a string
@@ -353,7 +357,7 @@ def setup_package():
     write_version_py()
 
     metadata = dict(
-        name = 'numpy',
+        name = 'numpy-posit',
         maintainer = "NumPy Developers",
         maintainer_email = "numpy-discussion@python.org",
         description = DOCLINES[0],
