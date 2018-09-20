@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""NumPy: array processing for numbers, strings, records, and objects.
+"""posit (unum type III) integrated NumPy: array processing for numbers, strings, records, and objects.
 
 NumPy is a general-purpose array-processing package designed to
 efficiently manipulate large multi-dimensional arrays of arbitrary
