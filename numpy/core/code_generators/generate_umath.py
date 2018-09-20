@@ -745,7 +745,6 @@ defdict = {
           None,
           TD('e', f='sqrt', astype={'e':'f'}),
           TD(inexactvec),
-          TD('rkK'),
           TD(inexact, f='sqrt', astype={'e':'f'}),
           TD(P, f='sqrt'),
           ),
