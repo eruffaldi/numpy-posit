@@ -69,7 +69,7 @@ POSITMAJOR          = 0
 POSITMINOR          = 0
 POSITMICRO          = 1
 POSITNANO           = ".dev2"
-ISRELEASED          = False
+ISRELEASED          = True
 VERSION             = '%d.%d.%d.%d.%d.%d%s' % (MAJOR, MINOR, MICRO, POSITMAJOR, POSITMINOR, POSITMICRO, POSITNANO)
 
 
