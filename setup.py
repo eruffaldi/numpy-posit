@@ -357,7 +357,7 @@ def setup_package():
     write_version_py()
 
     metadata = dict(
-        name = 'numpy-posit',
+        name = 'numpy',
         maintainer = "NumPy Developers",
         maintainer_email = "numpy-discussion@python.org",
         description = DOCLINES[0],
