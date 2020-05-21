@@ -684,7 +684,7 @@ def configuration(parent_package='',top_path=None):
 
     softposit_sources = [ join('src', 'npymath', 'softposit', 'source', '*.c') ]
     softposit_headers = [ join('src', 'npymath', 'softposit', 'source', 'include', '*.h'),
-                          join('src', 'npymath', 'softposit', 'build', 'Linux-x86_64-GCC', 'platform.h'),
+#                          join('src', 'npymath', 'softposit', 'build', 'Linux-x86_64-GCC', 'platform.h'),
                         ]
     
     # Must be true for CRT compilers but not MinGW/cygwin. See gh-9977.
